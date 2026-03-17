@@ -53,54 +53,46 @@ class CandidateResource extends Resource
     }
 
     public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('first_name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('last_name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('phone')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('cv_path')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('photo_path')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('current_level_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('current_level'),
-                Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\TextColumn::make('primary_score')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('secondary_score')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
+{
+    return $table
+        ->columns([
+            \Filament\Tables\Columns\TextColumn::make('user.name')
+                ->label('Nom')
+                ->searchable(),
+            \Filament\Tables\Columns\TextColumn::make('user.email')
+                ->label('Email')
+                ->searchable(),
+            \Filament\Tables\Columns\TextColumn::make('status')
+                ->label('Statut')
+                ->badge()
+                ->color(fn (string $state): string => match ($state) {
+                    'approved' => 'success',
+                    'rejected' => 'danger',
+                    default => 'warning',
+                }),
+            \Filament\Tables\Columns\IconColumn::make('cv_path')
+                ->label('CV')
+                ->boolean()
+                ->trueIcon('heroicon-o-document')
+                ->falseIcon('heroicon-o-x-mark'),
+            \Filament\Tables\Columns\TextColumn::make('created_at')
+                ->label('Date')
+                ->dateTime()
+                ->sortable(),
+        ])
+        ->actions([
+            \Filament\Tables\Actions\Action::make('voir_cv')
+                ->label('Voir CV')
+                ->icon('heroicon-o-document')
+                ->url(fn ($record) => $record->cv_path 
+                    ? asset('storage/' . $record->cv_path) 
+                    : null)
+                ->openUrlInNewTab()
+                ->visible(fn ($record) => $record->cv_path !== null),
+            \Filament\Tables\Actions\EditAction::make(),
+        ]);
+}
+
 
     public static function getRelations(): array
     {
