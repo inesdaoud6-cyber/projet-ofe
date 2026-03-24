@@ -29,4 +29,15 @@ class QuestionResponse extends Model
     {
         return $this->belongsTo(Answer::class);
     }
+
+    public function getAnswerTextAttribute(): string
+    {
+        if (!$this->answer) return 'No answer provided';
+        return $this->answer->text ?? $this->answer->name ?? 'No answer';
+    }
+
+    public function getScoreAttribute(): float
+    {
+        return $this->obtained_score ?? $this->auto_score ?? 0;
+    }
 }

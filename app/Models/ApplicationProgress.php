@@ -38,4 +38,20 @@ class ApplicationProgress extends Model
     {
         return $this->hasMany(Response::class, 'application_id');
     }
+
+    public function getCandidateNameAttribute(): string
+    {
+        return $this->candidate?->name ?? 'Unknown Candidate';
+    }
+
+    public function getFullCandidateNameAttribute(): string
+    {
+        $user = $this->candidate;
+        if (!$user) return 'Unknown Candidate';
+        
+        $firstName = $user->candidate?->first_name ?? '';
+        $lastName = $user->candidate?->last_name ?? '';
+        
+        return trim("$firstName $lastName") ?: $user->name;
+    }
 }
