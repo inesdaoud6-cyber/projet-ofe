@@ -12,21 +12,21 @@ class ChoixCandidature extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static string $view = 'filament.candidate.pages.choix-candidature';
-    protected static ?string $title = 'Choisir ma candidature';
+    protected static ?string $title = 'Choose My Application';
     protected static ?string $slug = 'choix-candidature';
 
-   public function candidatLibre(): void
-{
-    ApplicationProgress::firstOrCreate([
-        'candidate_id' => auth()->id(),
-        'offre_id' => null,
-    ], [
-        'status' => 'pending',
-        'current_level' => 1,
-        'main_score' => 0,
-        'secondary_score' => 0,
-    ]);
+    public function candidatLibre(): void
+    {
+        ApplicationProgress::firstOrCreate([
+            'candidate_id' => auth()->id(),
+            'offre_id' => null,
+        ], [
+            'status' => 'pending',
+            'current_level' => 1,
+            'main_score' => 0,
+            'secondary_score' => 0,
+        ]);
 
-    $this->redirect('/candidate/upload-cv');
-}
+        $this->redirect('/candidate/upload-cv');
+    }
 }

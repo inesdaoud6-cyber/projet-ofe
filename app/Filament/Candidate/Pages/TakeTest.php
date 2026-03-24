@@ -9,11 +9,12 @@ use App\Models\Response;
 use App\Models\QuestionResponse;
 use Filament\Notifications\Notification;
 use App\Models\Answer;
+
 class TakeTest extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
     protected static string $view = 'filament.candidate.pages.take-test';
-    protected static ?string $title = 'Passer le Test';
+    protected static ?string $title = 'Take Test';
     protected static ?string $slug = 'take-test';
 
     public array $answers = [];
@@ -39,67 +40,61 @@ class TakeTest extends Page
     }
 
     public function saveAnswers(): void
-{
-    $response = Response::firstOrCreate([
-        'application_id' => $this->application->id,
-    ]);
+    {
+        $response = Response::firstOrCreate([
+            'application_id' => $this->application->id,
+        ]);
 
-    $mainScore = 0;
-    $secondaryScore = 0;
+        $mainScore = 0;
+        $secondaryScore = 0;
 
-    foreach ($this->answers as $questionId => $answer) {
-        $question = Question::find($questionId);
-        $autoScore = 0;
+        foreach ($this->answers as $questionId => $answer) {
+            $question = Question::find($questionId);
+            $autoScore = 0;
 
-        // Calcul automatique pour les questions scorables
-        if ($question && $question->scorable) {
-            if (in_array($question->component, ['radio', 'list'])) {
-                // Vérifier si la réponse correspond à une bonne réponse
-                $correctAnswer = Answer::where('question_id', $questionId)
-                    ->where('is_correct', true)
-                    ->first();
+            if ($question && $question->scorable) {
+                if (in_array($question->component, ['radio', 'list'])) {
+                    $correctAnswer = Answer::where('question_id', $questionId)
+                        ->where('is_correct', true)
+                        ->first();
 
-                if ($correctAnswer && $correctAnswer->value === $answer) {
-                    $autoScore = $question->max_note ?? 0;
+                    if ($correctAnswer && $correctAnswer->value === $answer) {
+                        $autoScore = $question->max_note ?? 0;
+                    }
+                }
+
+                if ($question->classification === 'primary') {
+                    $mainScore += $autoScore;
+                } else {
+                    $secondaryScore += $autoScore;
                 }
             }
 
-            // Ajouter au score selon classification
-            if ($question->classification === 'primary') {
-                $mainScore += $autoScore;
-            } else {
-                $secondaryScore += $autoScore;
-            }
+            QuestionResponse::updateOrCreate(
+                [
+                    'response_id' => $response->id,
+                    'question_id' => $questionId,
+                ],
+                [
+                    'answer_id' => null,
+                    'auto_score' => $autoScore,
+                    'manual_score' => 0,
+                    'obtained_score' => $autoScore,
+                    'text_answer' => is_string($answer) ? $answer : null,
+                ]
+            );
         }
 
-        QuestionResponse::updateOrCreate(
-            [
-                'response_id' => $response->id,
-                'question_id' => $questionId,
-            ],
-            [
-                'answer_id' => null,
-                'auto_score' => $autoScore,
-                'manual_score' => 0,
-                'obtained_score' => $autoScore,
-                'text_answer' => is_string($answer) ? $answer : null,
-            ]
-        );
+        $this->application->update([
+            'main_score' => $mainScore,
+            'secondary_score' => $secondaryScore,
+        ]);
+
+        Notification::make()
+            ->title('Answers saved!')
+            ->success()
+            ->send();
     }
-
-    // Mettre à jour les scores de la candidature
-    $this->application->update([
-        'main_score' => $mainScore,
-        'secondary_score' => $secondaryScore,
-    ]);
-
-    Notification::make()
-        ->title('Réponses sauvegardées !')
-        ->success()
-        ->send();
-}
-
-
 
     public function submitLevel(): void
     {
@@ -108,7 +103,7 @@ class TakeTest extends Page
         $this->application->update(['status' => 'in_progress']);
 
         Notification::make()
-            ->title('Level ' . $this->currentLevel . ' soumis ! En attente de validation.')
+            ->title('Level ' . $this->currentLevel . ' submitted! Awaiting validation.')
             ->success()
             ->send();
 

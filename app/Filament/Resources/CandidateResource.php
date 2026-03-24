@@ -14,6 +14,9 @@ class CandidateResource extends Resource
 {
     protected static ?string $model = Candidate::class;
     protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationLabel = 'Candidates';
+    protected static ?string $modelLabel = 'Candidate';
+    protected static ?string $pluralModelLabel = 'Candidates';
 
     public static function form(Form $form): Form
     {
@@ -39,11 +42,11 @@ class CandidateResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Nom')->searchable(),
+                    ->label('Name')->searchable(),
                 Tables\Columns\TextColumn::make('user.email')
                     ->label('Email')->searchable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Statut')
+                    ->label('Status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'validated' => 'success',
@@ -61,7 +64,7 @@ class CandidateResource extends Resource
             ])
             ->actions([
                 Tables\Actions\Action::make('voir_cv')
-                    ->label('Voir CV')
+                    ->label('View CV')
                     ->icon('heroicon-o-document')
                     ->url(fn ($record) => $record->cv_path
                         ? asset('storage/' . $record->cv_path)
@@ -70,32 +73,32 @@ class CandidateResource extends Resource
                     ->visible(fn ($record) => $record->cv_path !== null),
 
                 Tables\Actions\Action::make('approuver')
-                    ->label('Approuver')
+                    ->label('Approve')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->requiresConfirmation()
-                    ->modalHeading('Approuver le CV')
-                    ->modalDescription('Êtes-vous sûr de vouloir approuver ce candidat ?')
+                    ->modalHeading('Approve CV')
+                    ->modalDescription('Are you sure you want to approve this candidate?')
                     ->action(function ($record) {
                         $record->update(['status' => 'validated']);
                         \Filament\Notifications\Notification::make()
-                            ->title('Candidat approuvé !')
+                            ->title('Candidate approved!')
                             ->success()
                             ->send();
                     })
                     ->visible(fn ($record) => $record->status === 'pending'),
 
                 Tables\Actions\Action::make('rejeter')
-                    ->label('Rejeter')
+                    ->label('Reject')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')
                     ->requiresConfirmation()
-                    ->modalHeading('Rejeter le CV')
-                    ->modalDescription('Êtes-vous sûr de vouloir rejeter ce candidat ?')
+                    ->modalHeading('Reject CV')
+                    ->modalDescription('Are you sure you want to reject this candidate?')
                     ->action(function ($record) {
                         $record->update(['status' => 'rejected']);
                         \Filament\Notifications\Notification::make()
-                            ->title('Candidat rejeté !')
+                            ->title('Candidate rejected!')
                             ->danger()
                             ->send();
                     })

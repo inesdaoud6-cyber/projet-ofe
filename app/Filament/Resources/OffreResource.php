@@ -15,42 +15,44 @@ class OffreResource extends Resource
 {
     protected static ?string $model = Offre::class;
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
-    protected static ?string $navigationLabel = 'Offres d\'emploi';
+    protected static ?string $navigationLabel = 'Job Offers';
+    protected static ?string $modelLabel = 'Job Offer';
+    protected static ?string $pluralModelLabel = 'Job Offers';
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Section::make('Informations de l\'offre')
+            Forms\Components\Section::make('Offer Information')
                 ->schema([
                     Forms\Components\TextInput::make('title')
-                        ->label('Titre')->required(),
+                        ->label('Title')->required(),
                     Forms\Components\Textarea::make('description')
                         ->label('Description')->required(),
                     Forms\Components\TextInput::make('domain')
-                        ->label('Domaine'),
+                        ->label('Domain'),
                     Forms\Components\TextInput::make('location')
-                        ->label('Lieu'),
+                        ->label('Location'),
                     Forms\Components\Select::make('contract_type')
-                        ->label('Type de contrat')
+                        ->label('Contract Type')
                         ->options([
                             'CDI' => 'CDI',
                             'CDD' => 'CDD',
-                            'Stage' => 'Stage',
+                            'Stage' => 'Internship',
                             'Freelance' => 'Freelance',
                         ]),
                     Forms\Components\DatePicker::make('deadline')
-                        ->label('Date limite'),
+                        ->label('Deadline'),
                     Forms\Components\Toggle::make('is_published')
-                        ->label('Publier l\'offre'),
+                        ->label('Publish Offer'),
                 ]),
 
-            Forms\Components\Section::make('Test associé')
+            Forms\Components\Section::make('Associated Test')
                 ->schema([
                     Forms\Components\Select::make('test_id')
-                        ->label('Choisir le test')
+                        ->label('Select Test')
                         ->options(Test::pluck('name', 'id'))
                         ->searchable()
-                        ->placeholder('Sélectionner un test...'),
+                        ->placeholder('Select a test...'),
                 ]),
         ]);
     }
@@ -60,17 +62,17 @@ class OffreResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->label('Titre')->searchable(),
+                    ->label('Title')->searchable(),
                 Tables\Columns\TextColumn::make('domain')
-                    ->label('Domaine'),
+                    ->label('Domain'),
                 Tables\Columns\TextColumn::make('contract_type')
-                    ->label('Contrat')->badge(),
+                    ->label('Contract')->badge(),
                 Tables\Columns\TextColumn::make('test.name')
-                    ->label('Test associé')->default('Aucun'),
+                    ->label('Associated Test')->default('None'),
                 Tables\Columns\IconColumn::make('is_published')
-                    ->label('Publié')->boolean(),
+                    ->label('Published')->boolean(),
                 Tables\Columns\TextColumn::make('deadline')
-                    ->label('Date limite')->date(),
+                    ->label('Deadline')->date(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

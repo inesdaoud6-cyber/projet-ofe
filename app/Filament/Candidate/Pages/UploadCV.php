@@ -16,7 +16,7 @@ class UploadCV extends Page
 
     protected static ?string $navigationIcon = 'heroicon-o-document-arrow-up';
     protected static string $view = 'filament.candidate.pages.upload-c-v';
-    protected static ?string $title = 'Upload mon CV';
+    protected static ?string $title = 'Upload My CV';
     protected static ?string $slug = 'upload-cv';
 
     public ?array $data = [];
@@ -30,10 +30,10 @@ class UploadCV extends Page
     {
         return $form
             ->schema([
-                Section::make('Mon CV')
+                Section::make('My CV')
                     ->schema([
                         FileUpload::make('cv')
-                            ->label('Télécharger mon CV')
+                            ->label('Upload My CV')
                             ->acceptedFileTypes(['application/pdf'])
                             ->maxSize(5120)
                             ->required(),
@@ -42,24 +42,24 @@ class UploadCV extends Page
             ->statePath('data');
     }
 
-  public function submit(): void
-{
-    $data = $this->form->getState();
+    public function submit(): void
+    {
+        $data = $this->form->getState();
 
-    Candidate::updateOrCreate(
-        ['user_id' => auth()->id()],
-        [
-            'cv_path' => $data['cv'],
-            'first_name' => auth()->user()->name ?? 'N/A',
-            'last_name' => '',
-        ]
-    );
+        Candidate::updateOrCreate(
+            ['user_id' => auth()->id()],
+            [
+                'cv_path' => $data['cv'],
+                'first_name' => auth()->user()->name ?? 'N/A',
+                'last_name' => '',
+            ]
+        );
 
-    Notification::make()
-        ->title('CV uploadé avec succès !')
-        ->success()
-        ->send();
+        Notification::make()
+            ->title('CV uploaded successfully!')
+            ->success()
+            ->send();
 
-    $this->redirect('/candidate/dashboard');
-}
+        $this->redirect('/candidate/dashboard');
+    }
 }

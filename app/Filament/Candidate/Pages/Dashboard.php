@@ -12,14 +12,14 @@ class Dashboard extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-home';
     protected static string $view = 'filament.candidate.pages.dashboard';
-    protected static ?string $title = 'Mon Espace Candidat';
+    protected static ?string $title = 'My Candidate Space';
     protected static ?string $slug = 'dashboard';
 
     protected function getActions(): array
     {
         return [
             Action::make('postuler_libre')
-                ->label('Candidat Libre')
+                ->label('Free Application')
                 ->color('warning')
                 ->action(function () {
                     ApplicationProgress::firstOrCreate([
@@ -34,11 +34,11 @@ class Dashboard extends Page
                 }),
 
             Action::make('postuler_offre')
-                ->label('Postuler a une Offre')
+                ->label('Apply to an Offer')
                 ->color('success')
                 ->form([
                     Select::make('offre_id')
-                        ->label('Choisir une offre')
+                        ->label('Choose an offer')
                         ->options(Offre::where('is_published', true)->pluck('title', 'id'))
                         ->required(),
                 ])

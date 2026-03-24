@@ -16,37 +16,39 @@ class TestResource extends Resource
     protected static ?string $model = Test::class;
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
     protected static ?string $navigationLabel = 'Tests';
+    protected static ?string $modelLabel = 'Test';
+    protected static ?string $pluralModelLabel = 'Tests';
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-           Forms\Components\Section::make('Informations du test')
-    ->schema([
-        Forms\Components\TextInput::make('name')
-            ->label('Nom du test')
-            ->required()
-            ->placeholder('Ex: Test Développeur PHP Senior, Test Marketing Manager...'),
-        Forms\Components\Textarea::make('description')
-            ->label('Description du test')
-            ->placeholder('Décrivez les compétences évaluées dans ce test...'),
-        Forms\Components\Select::make('offre_id')
-            ->label('Offre d\'emploi liée')
-            ->options(\App\Models\Offre::where('is_published', true)->pluck('title', 'id'))
-            ->searchable()
-            ->placeholder('Sélectionner une offre...'),
-        Forms\Components\TextInput::make('eligibility_threshold')
-            ->label('Seuil d\'éligibilité (%)')
-            ->numeric()->default(50)
-            ->helperText('Score minimum pour activer le bouton "I apply"'),
-        Forms\Components\TextInput::make('talent_threshold')
-            ->label('Seuil talent (%)')
-            ->numeric()->default(80)
-            ->helperText('Score pour notifier l\'admin d\'un profil à fort potentiel'),
-    ]),
-            Forms\Components\Section::make('Blocs du test')
+            Forms\Components\Section::make('Test Information')
+                ->schema([
+                    Forms\Components\TextInput::make('name')
+                        ->label('Test Name')
+                        ->required()
+                        ->placeholder('Ex: PHP Senior Developer Test, Marketing Manager Test...'),
+                    Forms\Components\Textarea::make('description')
+                        ->label('Test Description')
+                        ->placeholder('Describe the skills evaluated in this test...'),
+                    Forms\Components\Select::make('offre_id')
+                        ->label('Linked Job Offer')
+                        ->options(\App\Models\Offre::where('is_published', true)->pluck('title', 'id'))
+                        ->searchable()
+                        ->placeholder('Select an offer...'),
+                    Forms\Components\TextInput::make('eligibility_threshold')
+                        ->label('Eligibility Threshold (%)')
+                        ->numeric()->default(50)
+                        ->helperText('Minimum score to enable the "I apply" button'),
+                    Forms\Components\TextInput::make('talent_threshold')
+                        ->label('Talent Threshold (%)')
+                        ->numeric()->default(80)
+                        ->helperText('Score to notify admin of a high potential profile'),
+                ]),
+            Forms\Components\Section::make('Test Blocks')
                 ->schema([
                     Forms\Components\CheckboxList::make('blocks')
-                        ->label('Choisir les blocs de questions')
+                        ->label('Select Question Blocks')
                         ->options(Block::pluck('name', 'id'))
                         ->columns(2),
                 ]),
@@ -58,13 +60,13 @@ class TestResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nom')->searchable(),
+                    ->label('Name')->searchable(),
                 Tables\Columns\TextColumn::make('eligibility_threshold')
-                    ->label('Seuil éligibilité'),
+                    ->label('Eligibility Threshold'),
                 Tables\Columns\TextColumn::make('talent_threshold')
-                    ->label('Seuil talent'),
+                    ->label('Talent Threshold'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Créé le')->date(),
+                    ->label('Created At')->date(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

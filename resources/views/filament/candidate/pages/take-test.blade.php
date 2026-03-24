@@ -7,7 +7,7 @@
                 🎯 Level {{ $this->currentLevel }} — Questions
             </h2>
             <p style="color: #d8b4fe;">
-                Répondez à toutes les questions puis cliquez sur "Soumettre"
+                Answer all questions then click "Submit"
             </p>
         </div>
 
@@ -31,7 +31,7 @@
 
                     {{-- Text --}}
                 @elseif($question->component === 'text')
-                    <textarea wire:model="answers.{{ $question->id }}" rows="3" placeholder="Votre réponse..."
+                    <textarea wire:model="answers.{{ $question->id }}" rows="3" placeholder="Your answer..."
                         style="width:100%; padding:12px; background-color:#374151; color:white; border:1px solid #4b5563; border-radius:8px;"></textarea>
 
                     {{-- Date --}}
@@ -47,7 +47,7 @@
                 @elseif($question->component === 'list')
                     <select wire:model="answers.{{ $question->id }}"
                         style="width:100%; padding:12px; background-color:#374151; color:white; border:1px solid #4b5563; border-radius:8px;">
-                        <option value="">-- Choisir --</option>
+                        <option value="">-- Choose --</option>
                         @if($question->possible_answers)
                             @foreach($question->possible_answers as $answer)
                                 <option value="{{ $answer }}" style="background-color:#374151; color:white;">
@@ -64,11 +64,11 @@
         <div class="flex gap-4 pb-6">
             <button wire:click="saveAnswers"
                 style="padding:12px 24px; background-color:#4b5563; color:white; border-radius:8px; font-weight:bold;">
-                💾 Sauvegarder
+                💾 Save
             </button>
             <button wire:click="submitLevel"
                 style="padding:12px 24px; background-color:#7c3aed; color:white; border-radius:8px; font-weight:bold;">
-                ✅ Soumettre Level {{ $this->currentLevel }}
+                ✅ Submit Level {{ $this->currentLevel }}
             </button>
         </div>
 
