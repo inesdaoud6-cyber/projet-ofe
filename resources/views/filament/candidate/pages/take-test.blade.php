@@ -11,7 +11,6 @@
             </p>
         </div>
 
-        {{-- Questions --}}
         @foreach($this->getQuestions() as $question)
             <div class="p-6 rounded-lg shadow" style="background-color: #1f2937;">
                 <p class="text-white font-semibold mb-4">
