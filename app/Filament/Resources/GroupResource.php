@@ -19,11 +19,27 @@ class GroupResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Groups';
+    protected static ?string $modelLabel = 'Group';
+    protected static ?string $pluralModelLabel = 'Groups';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255)
+                    ->label('Name'),
+                Forms\Components\TextInput::make('order')
+                    ->required()
+                    ->numeric()
+                    ->default(0)
+                    ->label('Order'),
+                Forms\Components\Select::make('block_id')
+                    ->relationship('block', 'name')
+                    ->required()
+                    ->label('Block'),
             ]);
     }
 
@@ -31,11 +47,23 @@ class GroupResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('order')
+                    ->label('Order')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('block.name')
+                    ->label('Block')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Created At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Updated At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

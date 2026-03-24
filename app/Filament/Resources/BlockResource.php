@@ -19,6 +19,12 @@ class BlockResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Blocks';
+
+    protected static ?string $modelLabel = 'Block';
+
+    protected static ?string $pluralModelLabel = 'Blocks';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -40,17 +46,22 @@ class BlockResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
+                    ->label('Title')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('order')
+                    ->label('Order')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Created At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Updated At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
