@@ -31,18 +31,15 @@ class TestResource extends Resource
                     Forms\Components\Textarea::make('description')
                         ->label('Test Description')
                         ->placeholder('Describe the skills evaluated in this test...'),
-                    Forms\Components\Select::make('offre_id')
-                        ->label('Linked Job Offer')
-                        ->options(\App\Models\Offre::where('is_published', true)->pluck('title', 'id'))
-                        ->searchable()
-                        ->placeholder('Select an offer...'),
                     Forms\Components\TextInput::make('eligibility_threshold')
                         ->label('Eligibility Threshold (%)')
-                        ->numeric()->default(50)
+                        ->numeric()
+                        ->default(50)
                         ->helperText('Minimum score to enable the "I apply" button'),
                     Forms\Components\TextInput::make('talent_threshold')
                         ->label('Talent Threshold (%)')
-                        ->numeric()->default(80)
+                        ->numeric()
+                        ->default(80)
                         ->helperText('Score to notify admin of a high potential profile'),
                 ]),
             Forms\Components\Section::make('Test Blocks')

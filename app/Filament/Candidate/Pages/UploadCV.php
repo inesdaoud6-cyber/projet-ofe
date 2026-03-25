@@ -3,18 +3,18 @@
 namespace App\Filament\Candidate\Pages;
 
 use Filament\Pages\Page;
-use Filament\Forms\Form;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Section;
+use Filament\Forms\Form;
+use Filament\Actions\Action;
 use App\Models\Candidate;
 use Filament\Notifications\Notification;
 
-class UploadCV extends Page
+class UploadCV extends Page implements HasForms
 {
     use InteractsWithForms;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-arrow-up';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static string $view = 'filament.candidate.pages.upload-c-v';
     protected static ?string $title = 'Upload My CV';
     protected static ?string $slug = 'upload-cv';
@@ -23,21 +23,23 @@ class UploadCV extends Page
 
     public function mount(): void
     {
-        $this->form->fill();
+        $candidate = Candidate::where('user_id', auth()->id())->first();
+        if ($candidate) {
+            $this->form->fill([
+                'cv_path' => $candidate->cv_path,
+            ]);
+        }
     }
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Section::make('My CV')
-                    ->schema([
-                        FileUpload::make('cv')
-                            ->label('Upload My CV')
-                            ->acceptedFileTypes(['application/pdf'])
-                            ->maxSize(5120)
-                            ->required(),
-                    ]),
+                \Filament\Forms\Components\FileUpload::make('cv_path')
+                    ->label('Upload CV')
+                    ->acceptedFileTypes(['application/pdf', 'application/msword'])
+                    ->maxSize(5120)
+                    ->required(),
             ])
             ->statePath('data');
     }
@@ -46,14 +48,16 @@ class UploadCV extends Page
     {
         $data = $this->form->getState();
 
-        Candidate::updateOrCreate(
+        $candidate = Candidate::firstOrCreate(
             ['user_id' => auth()->id()],
             [
-                'cv_path' => $data['cv'],
-                'first_name' => auth()->user()->name ?? 'N/A',
+                'first_name' => auth()->user()->name ?? 'Unknown',
                 'last_name' => '',
+                'email' => auth()->user()->email,
             ]
         );
+
+        $candidate->update(['cv_path' => $data['cv_path']]);
 
         Notification::make()
             ->title('CV uploaded successfully!')

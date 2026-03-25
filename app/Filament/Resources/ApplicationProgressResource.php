@@ -65,7 +65,7 @@ class ApplicationProgressResource extends Resource
                     ->label('View Answers')
                     ->icon('heroicon-o-eye')
                     ->color('info')
-                    ->url(fn ($record) => route('filament.admin.resources.application-progresses.edit', $record)),
+                    ->url(fn ($record) => route('filament.admin.resources.application-progress.edit', $record)),
 
                 Tables\Actions\Action::make('valider')
                     ->label('Validate Level')
@@ -112,7 +112,7 @@ class ApplicationProgressResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListApplicationProgresses::route('/'),
+            'index' => Pages\ListApplicationProgress::route('/'),
             'edit' => Pages\EditApplicationProgress::route('/{record}/edit'),
         ];
     }

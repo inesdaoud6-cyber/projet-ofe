@@ -27,6 +27,21 @@ class ChoixCandidature extends Page
             'secondary_score' => 0,
         ]);
 
-        $this->redirect('/candidate/upload-cv');
+        $this->redirect(route('filament.candidate.pages.upload-cv'));
+    }
+
+    public function candidateOffre(int $offreId): void
+    {
+        ApplicationProgress::firstOrCreate([
+            'candidate_id' => auth()->id(),
+            'offre_id' => $offreId,
+        ], [
+            'status' => 'pending',
+            'current_level' => 1,
+            'main_score' => 0,
+            'secondary_score' => 0,
+        ]);
+
+        $this->redirect(route('filament.candidate.pages.upload-cv'));
     }
 }

@@ -24,7 +24,8 @@ class TakeTest extends Page
     public function mount(): void
     {
         $this->application = ApplicationProgress::where('candidate_id', auth()->id())
-            ->latest()->first();
+            ->latest()
+            ->first();
 
         if (!$this->application) {
             $this->redirect('/candidate/dashboard');
@@ -58,7 +59,7 @@ class TakeTest extends Page
                         ->where('is_correct', true)
                         ->first();
 
-                    if ($correctAnswer && $correctAnswer->value === $answer) {
+                    if ($correctAnswer && $correctAnswer->text === $answer) {
                         $autoScore = $question->max_note ?? 0;
                     }
                 }

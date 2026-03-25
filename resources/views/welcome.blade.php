@@ -1,10 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="{{ asset('css/global.css') }}">
-<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
-<link rel="stylesheet" href="{{ asset('css/hero.css') }}">
-<link rel="stylesheet" href="{{ asset('css/about.css') }}">
-<link rel="stylesheet" href="{{ asset('css/footer.css') }}">
 
 <head>
     <meta charset="UTF-8">
@@ -12,17 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Staffing2Earn - Recruitment Platform</title>
 
-    @vite([
-        'resources/css/global.css',
-        'resources/css/navbar.css',
-        'resources/css/hero.css',
-        'resources/css/about.css',
-        'resources/css/footer.css'
-    ])
+    <link rel="stylesheet" href="{{ asset('css/global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/hero.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/about.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
 </head>
 
 <body>
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="navbar-brand">
             <img src="{{ asset('images/2earn.png') }}" alt="Logo">
@@ -36,7 +28,6 @@
         </ul>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-text">
             <h1>Welcome to Staffing2Earn</h1>
@@ -49,7 +40,6 @@
         <img src="{{ asset('images/2earn.png') }}" alt="Illustration">
     </section>
 
-    <!-- About Section -->
     <section class="about" id="about">
         <h2>About Staffing2Earn</h2>
         <p>
@@ -77,7 +67,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <p>&copy; 2024 Staffing2Earn. All rights reserved.</p>
     </footer>

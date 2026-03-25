@@ -13,14 +13,16 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('phone')->nullable();
+            $table->string('email')->unique();
             $table->string('cv_path')->nullable();
-            $table->string('photo_path')->nullable();
-            $table->foreignId('current_level_id')->nullable()->constrained('levels')->nullOnDelete();$table->enum('current_level', [1, 2, 3])->default(1);
-            $table->enum('status', ['pending', 'in_progress', 'validated', 'rejected'])->default('pending');
-            $table->float('primary_score')->nullable();
-            $table->float('secondary_score')->nullable();
+            $table->float('primary_score')->default(0);
+            $table->float('secondary_score')->default(0);
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->boolean('score_visibility')->default(false);
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('status');
         });
     }
 

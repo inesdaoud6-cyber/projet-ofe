@@ -6,20 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('offres', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->string('domain');
+            $table->enum('contract_type', ['CDI', 'CDD', 'Stage', 'Freelance'])->default('CDI');
+            $table->boolean('is_published')->default(false);
+            $table->dateTime('deadline')->nullable();
             $table->timestamps();
+
+            $table->index('is_published');
+            $table->index('domain');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('offres');
