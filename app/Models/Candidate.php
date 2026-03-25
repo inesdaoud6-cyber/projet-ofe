@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +17,11 @@ class Candidate extends Model
         'primary_score',
         'secondary_score',
         'status',
-        'score_visibility'
+        'score_visibility',
+    ];
+
+    protected $casts = [
+        'score_visibility' => 'boolean',
     ];
 
     public function user(): BelongsTo
@@ -27,5 +32,10 @@ class Candidate extends Model
     public function applications(): HasMany
     {
         return $this->hasMany(ApplicationProgress::class);
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return trim($this->first_name . ' ' . $this->last_name) ?: $this->user?->name ?? 'Unknown';
     }
 }

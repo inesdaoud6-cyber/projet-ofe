@@ -24,14 +24,14 @@ class Question extends Model
         'second_ratio',
         'user_note',
         'note_rule',
-        'possible_answers'
+        'possible_answers',
     ];
 
     protected $casts = [
         'possible_answers' => 'array',
-        'obligatory' => 'boolean',
-        'scorable' => 'boolean',
-        'auto_evaluation' => 'boolean',
+        'obligatory'       => 'boolean',
+        'scorable'         => 'boolean',
+        'auto_evaluation'  => 'boolean',
     ];
 
     public function block(): BelongsTo
@@ -47,5 +47,10 @@ class Question extends Model
     public function answers(): HasMany
     {
         return $this->hasMany(Answer::class);
+    }
+
+    public function questionResponses(): HasMany
+    {
+        return $this->hasMany(QuestionResponse::class);
     }
 }

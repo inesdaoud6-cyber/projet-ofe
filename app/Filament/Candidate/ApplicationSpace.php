@@ -2,8 +2,8 @@
 
 namespace App\Filament\Candidate\Pages;
 
-use Filament\Pages\Page;
 use App\Models\ApplicationProgress;
+use Filament\Pages\Page;
 
 class ApplicationSpace extends Page
 {
@@ -15,26 +15,20 @@ class ApplicationSpace extends Page
     public function getViewData(): array
     {
         $user = auth()->user();
+
         $applications = ApplicationProgress::where('candidate_id', $user->id)
             ->latest()
             ->get();
 
-        $totalApplications = $applications->count();
-        
-        $averageScore = $applications->avg('main_score');
-        if ($averageScore === null) {
-            $averageScore = 0;
-        }
-
-        $candidateName = $user->candidate ? 
-            trim($user->candidate->first_name . ' ' . $user->candidate->last_name) : 
-            $user->name;
+        $candidateName = $user->candidate
+            ? trim($user->candidate->first_name . ' ' . $user->candidate->last_name)
+            : $user->name;
 
         return [
-            'candidateName' => $candidateName,
-            'totalApplications' => $totalApplications,
-            'averageScore' => round($averageScore, 2),
-            'applications' => $applications,
+            'candidateName'     => $candidateName ?: $user->name,
+            'totalApplications' => $applications->count(),
+            'averageScore'      => round($applications->avg('main_score') ?? 0, 2),
+            'applications'      => $applications,
         ];
     }
 }

@@ -2,13 +2,13 @@
 
 namespace App\Filament\Candidate\Pages;
 
-use Filament\Pages\Page;
-use App\Models\Question;
-use App\Models\ApplicationProgress;
-use App\Models\Response;
-use App\Models\QuestionResponse;
-use Filament\Notifications\Notification;
 use App\Models\Answer;
+use App\Models\ApplicationProgress;
+use App\Models\Question;
+use App\Models\QuestionResponse;
+use App\Models\Response;
+use Filament\Notifications\Notification;
+use Filament\Pages\Page;
 
 class TakeTest extends Page
 {
@@ -28,7 +28,7 @@ class TakeTest extends Page
             ->first();
 
         if (!$this->application) {
-            $this->redirect('/candidate/dashboard');
+            $this->redirect(route('filament.candidate.pages.dashboard'));
             return;
         }
 
@@ -44,16 +44,17 @@ class TakeTest extends Page
     {
         $response = Response::firstOrCreate([
             'application_id' => $this->application->id,
+            'level'          => $this->currentLevel,
         ]);
 
-        $mainScore = 0;
+        $mainScore      = 0;
         $secondaryScore = 0;
 
         foreach ($this->answers as $questionId => $answer) {
-            $question = Question::find($questionId);
+            $question  = Question::find($questionId);
             $autoScore = 0;
 
-            if ($question && $question->scorable) {
+            if ($question?->scorable) {
                 if (in_array($question->component, ['radio', 'list'])) {
                     $correctAnswer = Answer::where('question_id', $questionId)
                         ->where('is_correct', true)
@@ -72,29 +73,23 @@ class TakeTest extends Page
             }
 
             QuestionResponse::updateOrCreate(
+                ['response_id' => $response->id, 'question_id' => $questionId],
                 [
-                    'response_id' => $response->id,
-                    'question_id' => $questionId,
-                ],
-                [
-                    'answer_id' => null,
-                    'auto_score' => $autoScore,
-                    'manual_score' => 0,
+                    'answer_id'      => null,
+                    'auto_score'     => $autoScore,
+                    'manual_score'   => 0,
                     'obtained_score' => $autoScore,
-                    'text_answer' => is_string($answer) ? $answer : null,
+                    'text_answer'    => is_string($answer) ? $answer : null,
                 ]
             );
         }
 
         $this->application->update([
-            'main_score' => $mainScore,
+            'main_score'      => $mainScore,
             'secondary_score' => $secondaryScore,
         ]);
 
-        Notification::make()
-            ->title('Answers saved!')
-            ->success()
-            ->send();
+        Notification::make()->title('Answers saved!')->success()->send();
     }
 
     public function submitLevel(): void
@@ -108,6 +103,6 @@ class TakeTest extends Page
             ->success()
             ->send();
 
-        $this->redirect('/candidate/dashboard');
+        $this->redirect(route('filament.candidate.pages.dashboard'));
     }
 }

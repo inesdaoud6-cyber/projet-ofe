@@ -6,6 +6,7 @@ use App\Filament\Resources\ApplicationProgressResource\Pages;
 use App\Models\ApplicationProgress;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -21,18 +22,15 @@ class ApplicationProgressResource extends Resource
         return $form->schema([
             Forms\Components\Select::make('status')
                 ->options([
-                    'pending' => 'Pending',
+                    'pending'     => 'Pending',
                     'in_progress' => 'In Progress',
-                    'validated' => 'Validated',
-                    'rejected' => 'Rejected',
+                    'validated'   => 'Validated',
+                    'rejected'    => 'Rejected',
                 ])
                 ->required(),
-            Forms\Components\TextInput::make('current_level')
-                ->numeric(),
-            Forms\Components\TextInput::make('main_score')
-                ->numeric(),
-            Forms\Components\TextInput::make('secondary_score')
-                ->numeric(),
+            Forms\Components\TextInput::make('current_level')->numeric(),
+            Forms\Components\TextInput::make('main_score')->numeric(),
+            Forms\Components\TextInput::make('secondary_score')->numeric(),
         ]);
     }
 
@@ -40,32 +38,27 @@ class ApplicationProgressResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('candidate.user.name')
-                    ->label('Candidate')->searchable(),
+                Tables\Columns\TextColumn::make('candidate.full_name')
+                    ->label('Candidate')
+                    ->searchable(['first_name', 'last_name']),
                 Tables\Columns\TextColumn::make('offre.title')
-                    ->label('Offer')->default('Free Candidate'),
+                    ->label('Offer')
+                    ->default('Free Candidate'),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'validated' => 'success',
-                        'rejected' => 'danger',
+                        'validated'   => 'success',
+                        'rejected'    => 'danger',
                         'in_progress' => 'warning',
-                        default => 'gray',
+                        default       => 'gray',
                     }),
-                Tables\Columns\TextColumn::make('current_level')
-                    ->label('Current Level'),
-                Tables\Columns\TextColumn::make('main_score')
-                    ->label('Main Score'),
-                Tables\Columns\TextColumn::make('secondary_score')
-                    ->label('Secondary Score'),
+                Tables\Columns\TextColumn::make('current_level')->label('Level'),
+                Tables\Columns\TextColumn::make('main_score')->label('Main Score'),
+                Tables\Columns\TextColumn::make('secondary_score')->label('Secondary Score'),
             ])
             ->actions([
-                Tables\Actions\Action::make('voir_reponses')
-                    ->label('View Answers')
-                    ->icon('heroicon-o-eye')
-                    ->color('info')
-                    ->url(fn ($record) => route('filament.admin.resources.application-progress.edit', $record)),
+                Tables\Actions\EditAction::make()->label('View / Edit'),
 
                 Tables\Actions\Action::make('valider')
                     ->label('Validate Level')
@@ -76,44 +69,37 @@ class ApplicationProgressResource extends Resource
                     ->modalDescription('The candidate will move to the next level.')
                     ->action(function ($record) {
                         $record->update([
-                            'status' => 'validated',
+                            'status'        => 'validated',
                             'current_level' => $record->current_level + 1,
                         ]);
-                        \Filament\Notifications\Notification::make()
+                        Notification::make()
                             ->title('Level validated! Candidate moved to the next level.')
-                            ->success()
-                            ->send();
+                            ->success()->send();
                     })
                     ->visible(fn ($record) => $record->status === 'in_progress'),
 
                 Tables\Actions\Action::make('rejeter')
-                    ->label('Reject Level')
+                    ->label('Reject')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')
                     ->requiresConfirmation()
-                    ->modalHeading('Reject Level')
+                    ->modalHeading('Reject Application')
                     ->modalDescription('The application will be rejected.')
                     ->action(function ($record) {
                         $record->update(['status' => 'rejected']);
-                        \Filament\Notifications\Notification::make()
-                            ->title('Level rejected!')
-                            ->danger()
-                            ->send();
+                        Notification::make()->title('Application rejected!')->danger()->send();
                     })
                     ->visible(fn ($record) => $record->status === 'in_progress'),
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [];
-    }
+    public static function getRelations(): array { return []; }
 
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListApplicationProgress::route('/'),
-            'edit' => Pages\EditApplicationProgress::route('/{record}/edit'),
+            'edit'  => Pages\EditApplicationProgress::route('/{record}/edit'),
         ];
     }
 }

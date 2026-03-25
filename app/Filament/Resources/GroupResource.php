@@ -3,76 +3,42 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\GroupResource\Pages;
-use App\Filament\Resources\GroupResource\RelationManagers;
 use App\Models\Group;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class GroupResource extends Resource
 {
     protected static ?string $model = Group::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
     protected static ?string $navigationLabel = 'Groups';
-    protected static ?string $modelLabel = 'Group';
-    protected static ?string $pluralModelLabel = 'Groups';
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255)
-                    ->label('Name'),
-                Forms\Components\TextInput::make('order')
-                    ->required()
-                    ->numeric()
-                    ->default(0)
-                    ->label('Order'),
-                Forms\Components\Select::make('block_id')
-                    ->relationship('block', 'name')
-                    ->required()
-                    ->label('Block'),
-            ]);
+        return $form->schema([
+            Forms\Components\TextInput::make('name')->required()->maxLength(255)->label('Name'),
+            Forms\Components\TextInput::make('order')->required()->numeric()->default(0)->label('Order'),
+            Forms\Components\Select::make('block_id')->relationship('block', 'name')->required()->label('Block'),
+        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('order')
-                    ->label('Order')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('block.name')
-                    ->label('Block')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created At')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated At')
-                    ->dateTime()
-                    ->sortable()
+                Tables\Columns\TextColumn::make('name')->label('Name')->searchable(),
+                Tables\Columns\TextColumn::make('block.name')->label('Block')->searchable(),
+                Tables\Columns\TextColumn::make('order')->label('Order')->numeric()->sortable(),
+                Tables\Columns\TextColumn::make('created_at')->label('Created At')->dateTime()->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([
-                //
-            ])
+            ->defaultSort('order')
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -81,19 +47,14 @@ class GroupResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
+    public static function getRelations(): array { return []; }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListGroups::route('/'),
+            'index'  => Pages\ListGroups::route('/'),
             'create' => Pages\CreateGroup::route('/create'),
-            'edit' => Pages\EditGroup::route('/{record}/edit'),
+            'edit'   => Pages\EditGroup::route('/{record}/edit'),
         ];
     }
 }

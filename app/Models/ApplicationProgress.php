@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -16,17 +17,17 @@ class ApplicationProgress extends Model
         'main_score',
         'secondary_score',
         'apply_enabled',
-        'score_published'
+        'score_published',
     ];
 
     protected $casts = [
-        'apply_enabled' => 'boolean',
+        'apply_enabled'   => 'boolean',
         'score_published' => 'boolean',
     ];
 
     public function candidate(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'candidate_id');
+        return $this->belongsTo(Candidate::class, 'candidate_id');
     }
 
     public function offre(): BelongsTo
@@ -34,24 +35,25 @@ class ApplicationProgress extends Model
         return $this->belongsTo(Offre::class);
     }
 
+    public function test(): BelongsTo
+    {
+        return $this->belongsTo(Test::class);
+    }
+
     public function responses(): HasMany
     {
         return $this->hasMany(Response::class, 'application_id');
     }
 
-    public function getCandidateNameAttribute(): string
-    {
-        return $this->candidate?->name ?? 'Unknown Candidate';
-    }
-
     public function getFullCandidateNameAttribute(): string
     {
-        $user = $this->candidate;
-        if (!$user) return 'Unknown Candidate';
-        
-        $firstName = $user->candidate?->first_name ?? '';
-        $lastName = $user->candidate?->last_name ?? '';
-        
-        return trim("$firstName $lastName") ?: $user->name;
+        $candidate = $this->candidate;
+        if (!$candidate) {
+            return 'Unknown Candidate';
+        }
+
+        $name = trim($candidate->first_name . ' ' . $candidate->last_name);
+
+        return $name ?: ($candidate->user?->name ?? 'Unknown Candidate');
     }
 }

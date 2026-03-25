@@ -9,9 +9,8 @@ class TranslationService
     public static function translate(string $text, string $targetLang): string
     {
         try {
-            $tr = new GoogleTranslate($targetLang);
-            return $tr->translate($text);
-        } catch (\Exception $e) {
+            return (new GoogleTranslate($targetLang))->translate($text);
+        } catch (\Exception) {
             return $text;
         }
     }

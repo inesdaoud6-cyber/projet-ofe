@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Offre extends Model
@@ -11,15 +12,22 @@ class Offre extends Model
         'title',
         'description',
         'domain',
+        'location',
         'contract_type',
         'is_published',
         'deadline',
+        'test_id',
     ];
 
     protected $casts = [
         'is_published' => 'boolean',
-        'deadline' => 'datetime',
+        'deadline'     => 'date',
     ];
+
+    public function test(): BelongsTo
+    {
+        return $this->belongsTo(Test::class);
+    }
 
     public function applications(): HasMany
     {
