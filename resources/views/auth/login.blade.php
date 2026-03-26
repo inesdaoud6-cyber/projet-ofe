@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Staffing2Earn</title>
 
-    <!-- CSS Files -->
+   
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
     <style>
@@ -90,7 +90,7 @@
 </head>
 
 <body>
-    <!-- Navbar -->
+   
     <nav class="navbar">
         <div class="navbar-brand">
             <img src="{{ asset('images/2earn.png') }}" alt="Logo">
@@ -98,12 +98,12 @@
         </div>
 
         <ul class="nav-links">
-            <li><a href="/">Home</a></li>
+            <li><a href="/home">Home</a></li>
             <li><a href="/#about">About</a></li>
         </ul>
     </nav>
 
-    <!-- Login Form -->
+  
     <div class="login-container">
         <h2>Login to your account</h2>
 
@@ -115,8 +115,8 @@
             </div>
         @endif
 
-        <form action="{{ route('login') }}" method="POST">
-            @csrf
+       <form method="POST" action="{{ route('auth.login.post') }}">
+    @csrf
 
             <div class="form-group">
                 <label for="email">Email Address</label>

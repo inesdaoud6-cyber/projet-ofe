@@ -1,75 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Staffing2Earn - Recruitment Platform</title>
+    <title>Staffing2Earn</title>
 
-    <link rel="stylesheet" href="{{ asset('css/global.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/hero.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/about.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
-    <nav class="navbar">
-        <div class="navbar-brand">
-            <img src="{{ asset('images/2earn.png') }}" alt="Logo">
-            <h2>Staffing2Earn</h2>
-        </div>
+<body class="bg-gray-100">
 
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="{{ route('login') }}">Login</a></li>
-        </ul>
+
+    <nav class="bg-gray-800 text-white">
+        <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
+            <div class="flex items-center gap-3">
+                <img src="/images/logo.png" class="w-32">
+                <span class="text-xl font-bold">Staffing2Earn</span>
+            </div>
+
+            <div class="space-x-6">
+                <a href="{{ route('home') }}" class="hover:text-green-400">Home</a>
+
+                <a href="#about" class="hover:text-green-400">About</a>
+
+                <a href="{{ route('auth.login') }}" class="hover:text-green-400">Login</a>
+            </div>
+        </div>
     </nav>
 
-    <section class="hero" id="home">
-        <div class="hero-text">
-            <h1>Welcome to Staffing2Earn</h1>
-            <p>
-                An intelligent recruitment platform that connects talent with the best opportunities.
-                Streamline your hiring process and find the perfect candidates.
-            </p>
-            <a href="{{ route('login') }}" class="btn">Get Started</a>
-        </div>
-        <img src="{{ asset('images/2earn.png') }}" alt="Illustration">
-    </section>
 
-    <section class="about" id="about">
-        <h2>About Staffing2Earn</h2>
-        <p>
-            We provide a comprehensive platform for modern recruitment, featuring intelligent testing,
-            candidate evaluation, and seamless application management.
+    <section class="text-center py-16">
+        <h1 class="text-4xl font-bold">
+            Welcome to Staffing2Earn
+        </h1>
+
+        <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
+            An intelligent recruitment platform that connects talent with the best opportunities.
         </p>
 
-        <div class="features">
-            <div class="feature">
-                <h3>📝 Smart Tests</h3>
-                <p>Create and manage multi-level assessment tests for better candidate evaluation.</p>
+        <button class="mt-6 bg-green-500 text-white px-6 py-3 rounded-lg shadow">
+            Get Started
+        </button>
+
+        <div class="mt-10">
+            <img src="/images/logo.png" class="w-72 mx-auto">
+        </div>
+    </section>
+
+    <section id="about" class="max-w-5xl mx-auto py-12 px-6">
+        <h2 class="text-2xl font-bold mb-6">About Staffing2Earn</h2>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="font-semibold">Smart Tests</h3>
+                <p class="text-sm text-gray-600 mt-2">
+                    Create and manage multi-level assessment tests.
+                </p>
             </div>
-            <div class="feature">
-                <h3>👥 Candidate Management</h3>
-                <p>Organize and track candidates throughout the recruitment process.</p>
+
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="font-semibold">Candidate Management</h3>
+                <p class="text-sm text-gray-600 mt-2">
+                    Track candidates throughout recruitment.
+                </p>
             </div>
-            <div class="feature">
-                <h3>📊 Analytics</h3>
-                <p>Get detailed insights into candidate performance and recruitment metrics.</p>
-            </div>
-            <div class="feature">
-                <h3>🚀 Easy Integration</h3>
-                <p>Seamless integration with your existing recruitment workflows.</p>
+
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="font-semibold">Analytics</h3>
+                <p class="text-sm text-gray-600 mt-2">
+                    Analyze performance and results easily.
+                </p>
             </div>
         </div>
     </section>
 
-    <footer>
-        <p>&copy; 2024 Staffing2Earn. All rights reserved.</p>
-    </footer>
+
 </body>
 
 </html>

@@ -45,6 +45,17 @@ class ApplicationProgress extends Model
     {
         return $this->belongsTo(Test::class);
     }
+public function application()
+{
+    return $this->belongsTo(Candidate::class);
+}
+public static function canGoToNextLevel($applicationId, $currentLevel)
+{
+    return self::where('application_id', $applicationId)
+        ->where('level', $currentLevel)
+        ->where('status', 'approved')
+        ->exists();
+}
 
     public function responses(): HasMany
     {

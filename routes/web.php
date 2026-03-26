@@ -1,15 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 
-Route::get('/', fn () => view('welcome'))->name('home');
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
 
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-});
+Route::get('/auth/login', function () {
+    return view('auth.login');
+})->name('auth.login');
 
-Route::post('/logout', [AuthController::class, 'logout'])
-    ->middleware('auth')
-    ->name('logout');
+Route::post('/auth/login', function () {
+    return "Login POST OK"; 
+})->name('auth.login.post');
