@@ -2,13 +2,14 @@
 
 namespace App\Filament\Candidate\Pages;
 
-use App\Models\Answer;
-use App\Models\ApplicationProgress;
-use App\Models\Question;
-use App\Models\QuestionResponse;
-use App\Models\Response;
-use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use App\Models\Question;
+use App\Models\ApplicationProgress;
+use App\Models\Response;
+use App\Models\QuestionResponse;
+use Filament\Notifications\Notification;
+use App\Models\Answer;
+
 
 class TakeTest extends Page
 {
@@ -24,15 +25,26 @@ class TakeTest extends Page
     public function mount(): void
     {
         $this->application = ApplicationProgress::where('candidate_id', auth()->id())
-            ->latest()
-            ->first();
+            ->latest()->first();
 
         if (!$this->application) {
-            $this->redirect(route('filament.candidate.pages.dashboard'));
+            $this->redirect('/candidate/dashboard');
             return;
         }
 
         $this->currentLevel = $this->application->current_level;
+
+        // Pré-remplir les réponses déjà sauvegardées pour ce niveau
+        $response = Response::where('application_id', $this->application->id)
+            ->where('level', $this->currentLevel)
+            ->first();
+
+        if ($response) {
+            $existing = QuestionResponse::where('response_id', $response->id)->get();
+            foreach ($existing as $qr) {
+                $this->answers[$qr->question_id] = $qr->text_answer ?? $qr->obtained_score;
+            }
+        }
     }
 
     public function getQuestions()
@@ -42,10 +54,13 @@ class TakeTest extends Page
 
     public function saveAnswers(): void
     {
-        $response = Response::firstOrCreate([
-            'application_id' => $this->application->id,
-            'level'          => $this->currentLevel,
-        ]);
+        
+        $response = Response::firstOrCreate(
+            [
+                'application_id' => $this->application->id,
+                'level'          => $this->currentLevel,   
+            ]
+        );
 
         $mainScore      = 0;
         $secondaryScore = 0;
@@ -54,13 +69,13 @@ class TakeTest extends Page
             $question  = Question::find($questionId);
             $autoScore = 0;
 
-            if ($question?->scorable) {
+            if ($question && $question->scorable) {
                 if (in_array($question->component, ['radio', 'list'])) {
                     $correctAnswer = Answer::where('question_id', $questionId)
                         ->where('is_correct', true)
                         ->first();
 
-                    if ($correctAnswer && $correctAnswer->text === $answer) {
+                    if ($correctAnswer && $correctAnswer->value === $answer) {
                         $autoScore = $question->max_note ?? 0;
                     }
                 }
@@ -73,23 +88,51 @@ class TakeTest extends Page
             }
 
             QuestionResponse::updateOrCreate(
-                ['response_id' => $response->id, 'question_id' => $questionId],
                 [
-                    'answer_id'      => null,
-                    'auto_score'     => $autoScore,
-                    'manual_score'   => 0,
-                    'obtained_score' => $autoScore,
-                    'text_answer'    => is_string($answer) ? $answer : null,
+                    'response_id' => $response->id,
+                    'question_id' => $questionId,
+                ],
+                [
+                    
+                    'answer_id'    => in_array($question?->component, ['radio', 'list'])
+                        ? Answer::where('question_id', $questionId)->where('value', $answer)->value('id')
+                        : null,
+                    'auto_score'    => $autoScore,
+                    'manual_score'  => 0,
+                    'obtained_score'=> $autoScore,
+                    'text_answer'   => is_string($answer) ? $answer : null,
                 ]
             );
         }
 
+      
+        $allResponses = Response::where('application_id', $this->application->id)
+            ->where('level', $this->currentLevel)
+            ->with('questionResponses.question')
+            ->get();
+
+        $totalMain      = 0;
+        $totalSecondary = 0;
+
+        foreach ($allResponses as $r) {
+            foreach ($r->questionResponses as $qr) {
+                if ($qr->question?->classification === 'primary') {
+                    $totalMain += $qr->obtained_score;
+                } else {
+                    $totalSecondary += $qr->obtained_score;
+                }
+            }
+        }
+
         $this->application->update([
-            'main_score'      => $mainScore,
-            'secondary_score' => $secondaryScore,
+            'main_score'      => $totalMain,
+            'secondary_score' => $totalSecondary,
         ]);
 
-        Notification::make()->title('Answers saved!')->success()->send();
+        Notification::make()
+            ->title('Answers saved!')
+            ->success()
+            ->send();
     }
 
     public function submitLevel(): void
@@ -103,6 +146,6 @@ class TakeTest extends Page
             ->success()
             ->send();
 
-        $this->redirect(route('filament.candidate.pages.dashboard'));
+        $this->redirect('/candidate/dashboard');
     }
 }

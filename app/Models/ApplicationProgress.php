@@ -1,15 +1,15 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
 class ApplicationProgress extends Model
 {
     protected $fillable = [
-        'candidate_id',
+        'candidate_id',   
         'offre_id',
         'test_id',
         'status',
@@ -25,9 +25,15 @@ class ApplicationProgress extends Model
         'score_published' => 'boolean',
     ];
 
-    public function candidate(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Candidate::class, 'candidate_id');
+        return $this->belongsTo(User::class, 'candidate_id');
+    }
+
+   
+    public function candidateProfile(): BelongsTo
+    {
+        return $this->belongsTo(Candidate::class, 'candidate_id', 'user_id');
     }
 
     public function offre(): BelongsTo
@@ -43,17 +49,5 @@ class ApplicationProgress extends Model
     public function responses(): HasMany
     {
         return $this->hasMany(Response::class, 'application_id');
-    }
-
-    public function getFullCandidateNameAttribute(): string
-    {
-        $candidate = $this->candidate;
-        if (!$candidate) {
-            return 'Unknown Candidate';
-        }
-
-        $name = trim($candidate->first_name . ' ' . $candidate->last_name);
-
-        return $name ?: ($candidate->user?->name ?? 'Unknown Candidate');
     }
 }

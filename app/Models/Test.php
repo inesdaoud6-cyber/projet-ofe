@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
 class Test extends Model
 {
     protected $fillable = [
@@ -13,26 +14,23 @@ class Test extends Model
         'description',
         'eligibility_threshold',
         'talent_threshold',
-        'offre_id',
+       
     ];
 
-    protected $casts = [
-        'eligibility_threshold' => 'float',
-        'talent_threshold'      => 'float',
-    ];
-
+  
     public function offre(): BelongsTo
     {
-        return $this->belongsTo(Offre::class);
+    
+        return $this->belongsTo(Offre::class, 'id', 'test_id');
     }
 
-    public function questions(): HasMany
+    public function blocks()
     {
-        return $this->hasMany(Question::class);
+        return $this->belongsToMany(Block::class, 'test_block');
     }
 
-    public function blocks(): HasMany
+    public function applicationProgresses(): HasMany
     {
-        return $this->hasMany(Block::class);
+        return $this->hasMany(ApplicationProgress::class);
     }
 }

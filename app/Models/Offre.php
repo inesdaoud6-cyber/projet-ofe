@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
+
 class Offre extends Model
 {
     protected $fillable = [
@@ -14,8 +16,8 @@ class Offre extends Model
         'domain',
         'location',
         'contract_type',
-        'is_published',
         'deadline',
+        'is_published',
         'test_id',
     ];
 
@@ -29,13 +31,9 @@ class Offre extends Model
         return $this->belongsTo(Test::class);
     }
 
-    public function applications(): HasMany
+   
+    public function applicationProgresses(): HasMany
     {
         return $this->hasMany(ApplicationProgress::class);
-    }
-
-    public function scopePublished($query)
-    {
-        return $query->where('is_published', true);
     }
 }

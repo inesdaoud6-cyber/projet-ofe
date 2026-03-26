@@ -2,15 +2,17 @@
 
 namespace App\Filament\Candidate\Pages;
 
-use App\Models\Candidate;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
-use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Forms\Form;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use App\Models\Candidate;
+use Filament\Notifications\Notification;
 
-class UploadCV extends Page implements HasForms
+
+class UploadCV extends Page
 {
     use InteractsWithForms;
 
@@ -23,10 +25,12 @@ class UploadCV extends Page implements HasForms
 
     public function mount(): void
     {
+        
         $candidate = Candidate::where('user_id', auth()->id())->first();
 
         $this->form->fill([
-            'cv_path' => $candidate?->cv_path,
+            'first_name' => $candidate?->first_name ?? '',
+            'last_name'  => $candidate?->last_name  ?? '',
         ]);
     }
 
@@ -34,11 +38,27 @@ class UploadCV extends Page implements HasForms
     {
         return $form
             ->schema([
-                FileUpload::make('cv_path')
-                    ->label('Upload CV')
-                    ->acceptedFileTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
-                    ->maxSize(5120)
-                    ->required(),
+                Section::make('My Profile')
+                    ->schema([
+                        TextInput::make('first_name')
+                            ->label('First Name')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('last_name')
+                            ->label('Last Name')
+                            ->required()
+                            ->maxLength(255),
+                    ])
+                    ->columns(2),
+
+                Section::make('My CV')
+                    ->schema([
+                        FileUpload::make('cv')
+                            ->label('Upload My CV (PDF)')
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->maxSize(5120)
+                            ->required(),
+                    ]),
             ])
             ->statePath('data');
     }
@@ -47,19 +67,20 @@ class UploadCV extends Page implements HasForms
     {
         $data = $this->form->getState();
 
-        $candidate = Candidate::firstOrCreate(
+        Candidate::updateOrCreate(
             ['user_id' => auth()->id()],
             [
-                'first_name' => auth()->user()->name,
-                'last_name'  => '',
-                'email'      => auth()->user()->email,
+                'cv_path'    => $data['cv'],
+                'first_name' => $data['first_name'],  
+                'last_name'  => $data['last_name'],   
             ]
         );
 
-        $candidate->update(['cv_path' => $data['cv_path']]);
+        Notification::make()
+            ->title('CV uploaded successfully!')
+            ->success()
+            ->send();
 
-        Notification::make()->title('CV uploaded successfully!')->success()->send();
-
-        $this->redirect(route('filament.candidate.pages.dashboard'));
+        $this->redirect('/candidate/dashboard');
     }
 }
