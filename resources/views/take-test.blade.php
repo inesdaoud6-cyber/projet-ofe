@@ -7,7 +7,7 @@
                 🎯 Level {{ $this->currentLevel }} — Questions
             </h2>
             <p style="color: #d8b4fe;">
-                Answer all questions then click "Submit"
+                {{ __('Answer all questions then click "Submit"') }}
             </p>
         </div>
 
@@ -28,21 +28,17 @@
                         @endforeach
                     </div>
 
-                    {{-- Text --}}
                 @elseif($question->component === 'text')
                     <textarea wire:model="answers.{{ $question->id }}" rows="3" placeholder="Your answer..."
                         style="width:100%; padding:12px; background-color:#374151; color:white; border:1px solid #4b5563; border-radius:8px;"></textarea>
 
-                    {{-- Date --}}
                 @elseif($question->component === 'date')
                     <input type="date" wire:model="answers.{{ $question->id }}"
                         style="padding:12px; background-color:#374151; color:white; border:1px solid #4b5563; border-radius:8px;" />
 
-                    {{-- Photo --}}
                 @elseif($question->component === 'photo')
                     <input type="file" wire:model="answers.{{ $question->id }}" accept="image/*" style="color:white;" />
 
-                    {{-- List --}}
                 @elseif($question->component === 'list')
                     <select wire:model="answers.{{ $question->id }}"
                         style="width:100%; padding:12px; background-color:#374151; color:white; border:1px solid #4b5563; border-radius:8px;">

@@ -21,10 +21,16 @@
             <p class="text-gray-400 mb-6">
                 Apply to a specific job offer published by the company.
             </p>
-            <a href="/candidate/offres"
-                class="px-6 py-3 bg-green-500 text-white rounded-lg font-bold hover:bg-green-600">
-                View offers
-            </a>
+            <div class="flex flex-col gap-4">
+                @forelse(\App\Models\Offre::where('is_published', true)->get() as $offre)
+                    <button wire:click="candidateOffre({{ $offre->id }})"
+                        class="px-6 py-3 bg-green-500 text-white rounded-lg font-bold hover:bg-green-600 text-sm">
+                        {{ $offre->title }}
+                    </button>
+                @empty
+                    <p class="text-gray-500">No offers available</p>
+                @endforelse
+            </div>
         </div>
 
     </div>

@@ -6,7 +6,6 @@ use Filament\Pages\Page;
 use Filament\Actions\Action;
 use App\Models\ApplicationProgress;
 use App\Models\Offre;
-use Filament\Forms\Components\Select;
 
 class Dashboard extends Page
 {
@@ -21,6 +20,7 @@ class Dashboard extends Page
             Action::make('postuler_libre')
                 ->label('Free Application')
                 ->color('warning')
+                ->icon('heroicon-o-plus-circle')
                 ->action(function () {
                     ApplicationProgress::firstOrCreate([
                         'candidate_id' => auth()->id(),
@@ -31,28 +31,25 @@ class Dashboard extends Page
                         'main_score' => 0,
                         'secondary_score' => 0,
                     ]);
+                    
+                    $this->redirect('/candidate/application-choice');
                 }),
+        ];
+    }
 
-            Action::make('postuler_offre')
-                ->label('Apply to an Offer')
-                ->color('success')
-                ->form([
-                    Select::make('offre_id')
-                        ->label('Choose an offer')
-                        ->options(Offre::where('is_published', true)->pluck('title', 'id'))
-                        ->required(),
-                ])
-                ->action(function (array $data) {
-                    ApplicationProgress::firstOrCreate([
-                        'candidate_id' => auth()->id(),
-                        'offre_id' => $data['offre_id'],
-                    ], [
-                        'status' => 'pending',
-                        'current_level' => 1,
-                        'main_score' => 0,
-                        'secondary_score' => 0,
-                    ]);
-                }),
+    public function getViewData(): array
+    {
+        $user = auth()->user();
+        $applications = ApplicationProgress::where('candidate_id', $user->id)->get();
+        $pendingApps = $applications->where('status', 'pending')->count();
+        $completedApps = $applications->where('status', 'validated')->count();
+
+        return [
+            'userName' => $user->name,
+            'totalApplications' => $applications->count(),
+            'pendingApplications' => $pendingApps,
+            'completedApplications' => $completedApps,
+            'recentApplications' => $applications->latest()->take(5),
         ];
     }
 }

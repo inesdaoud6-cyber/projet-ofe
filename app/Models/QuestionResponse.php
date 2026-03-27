@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,13 @@ class QuestionResponse extends Model
         'auto_score',
         'manual_score',
         'obtained_score',
+        'text_answer',
+    ];
+
+    protected $casts = [
+        'auto_score'     => 'float',
+        'manual_score'   => 'float',
+        'obtained_score' => 'float',
     ];
 
     public function response(): BelongsTo
@@ -28,5 +36,10 @@ class QuestionResponse extends Model
     public function answer(): BelongsTo
     {
         return $this->belongsTo(Answer::class);
+    }
+
+    public function getEffectiveScoreAttribute(): float
+    {
+        return $this->obtained_score ?? $this->auto_score ?? 0.0;
     }
 }

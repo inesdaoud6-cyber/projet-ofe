@@ -13,26 +13,30 @@ use Filament\Tables\Table;
 class ApplicationProgressResource extends Resource
 {
     protected static ?string $model = ApplicationProgress::class;
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
-    protected static ?string $navigationLabel = 'Applications';
+
+    protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
 
     public static function form(Form $form): Form
     {
         return $form->schema([
+            Forms\Components\Select::make('application_id')
+                ->relationship('application', 'id')
+                ->required(),
+
+            Forms\Components\TextInput::make('level')
+                ->numeric()
+                ->required(),
+
             Forms\Components\Select::make('status')
                 ->options([
                     'pending' => 'Pending',
-                    'in_progress' => 'In Progress',
-                    'validated' => 'Validated',
+                    'approved' => 'Approved',
                     'rejected' => 'Rejected',
                 ])
                 ->required(),
-            Forms\Components\TextInput::make('current_level')
-                ->numeric(),
-            Forms\Components\TextInput::make('main_score')
-                ->numeric(),
-            Forms\Components\TextInput::make('secondary_score')
-                ->numeric(),
+
+            Forms\Components\Textarea::make('notes')
+                ->maxLength(255),
         ]);
     }
 
@@ -40,79 +44,58 @@ class ApplicationProgressResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('candidate.user.name')
-                    ->label('Candidate')->searchable(),
-                Tables\Columns\TextColumn::make('offre.title')
-                    ->label('Offer')->default('Free Candidate'),
+                Tables\Columns\TextColumn::make('application_id')
+                    ->label('Application'),
+
+                Tables\Columns\TextColumn::make('level')
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'validated' => 'success',
+                    ->color(fn ($state) => match ($state) {
+                        'approved' => 'success',
                         'rejected' => 'danger',
-                        'in_progress' => 'warning',
+                        'pending' => 'warning',
                         default => 'gray',
                     }),
-                Tables\Columns\TextColumn::make('current_level')
-                    ->label('Current Level'),
-                Tables\Columns\TextColumn::make('main_score')
-                    ->label('Main Score'),
-                Tables\Columns\TextColumn::make('secondary_score')
-                    ->label('Secondary Score'),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable(),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'approved' => 'Approved',
+                        'rejected' => 'Rejected',
+                    ]),
             ])
             ->actions([
-                Tables\Actions\Action::make('voir_reponses')
-                    ->label('View Answers')
-                    ->icon('heroicon-o-eye')
-                    ->color('info')
-                    ->url(fn ($record) => route('filament.admin.resources.application-progresses.edit', $record)),
+                Tables\Actions\EditAction::make(),
 
-                Tables\Actions\Action::make('valider')
-                    ->label('Validate Level')
-                    ->icon('heroicon-o-check-circle')
+                Tables\Actions\Action::make('approve')
+                    ->label('Approve')
                     ->color('success')
-                    ->requiresConfirmation()
-                    ->modalHeading('Validate Level')
-                    ->modalDescription('The candidate will move to the next level.')
-                    ->action(function ($record) {
-                        $record->update([
-                            'status' => 'validated',
-                            'current_level' => $record->current_level + 1,
-                        ]);
-                        \Filament\Notifications\Notification::make()
-                            ->title('Level validated! Candidate moved to the next level.')
-                            ->success()
-                            ->send();
-                    })
-                    ->visible(fn ($record) => $record->status === 'in_progress'),
+                    ->action(fn ($record) => $record->update(['status' => 'approved']))
+                    ->visible(fn ($record) => $record->status === 'pending'),
 
-                Tables\Actions\Action::make('rejeter')
-                    ->label('Reject Level')
-                    ->icon('heroicon-o-x-circle')
+                Tables\Actions\Action::make('reject')
+                    ->label('Reject')
                     ->color('danger')
-                    ->requiresConfirmation()
-                    ->modalHeading('Reject Level')
-                    ->modalDescription('The application will be rejected.')
-                    ->action(function ($record) {
-                        $record->update(['status' => 'rejected']);
-                        \Filament\Notifications\Notification::make()
-                            ->title('Level rejected!')
-                            ->danger()
-                            ->send();
-                    })
-                    ->visible(fn ($record) => $record->status === 'in_progress'),
+                    ->action(fn ($record) => $record->update(['status' => 'rejected']))
+                    ->visible(fn ($record) => $record->status === 'pending'),
+            ])
+            ->bulkActions([
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListApplicationProgresses::route('/'),
+            'index' => Pages\ListApplicationProgress::route('/'),
+            'create' => Pages\CreateApplicationProgress::route('/create'),
             'edit' => Pages\EditApplicationProgress::route('/{record}/edit'),
         ];
     }

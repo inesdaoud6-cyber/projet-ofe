@@ -7,8 +7,10 @@ use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
 use App\Models\Candidate;
 use Filament\Notifications\Notification;
+
 
 class UploadCV extends Page
 {
@@ -23,17 +25,36 @@ class UploadCV extends Page
 
     public function mount(): void
     {
-        $this->form->fill();
+        
+        $candidate = Candidate::where('user_id', auth()->id())->first();
+
+        $this->form->fill([
+            'first_name' => $candidate?->first_name ?? '',
+            'last_name'  => $candidate?->last_name  ?? '',
+        ]);
     }
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
+                Section::make('My Profile')
+                    ->schema([
+                        TextInput::make('first_name')
+                            ->label('First Name')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('last_name')
+                            ->label('Last Name')
+                            ->required()
+                            ->maxLength(255),
+                    ])
+                    ->columns(2),
+
                 Section::make('My CV')
                     ->schema([
                         FileUpload::make('cv')
-                            ->label('Upload My CV')
+                            ->label('Upload My CV (PDF)')
                             ->acceptedFileTypes(['application/pdf'])
                             ->maxSize(5120)
                             ->required(),
@@ -49,9 +70,9 @@ class UploadCV extends Page
         Candidate::updateOrCreate(
             ['user_id' => auth()->id()],
             [
-                'cv_path' => $data['cv'],
-                'first_name' => auth()->user()->name ?? 'N/A',
-                'last_name' => '',
+                'cv_path'    => $data['cv'],
+                'first_name' => $data['first_name'],  
+                'last_name'  => $data['last_name'],   
             ]
         );
 

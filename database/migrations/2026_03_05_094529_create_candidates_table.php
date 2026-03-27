@@ -4,6 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+
+
 return new class extends Migration
 {
     public function up(): void
@@ -16,7 +18,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('cv_path')->nullable();
             $table->string('photo_path')->nullable();
-            $table->foreignId('current_level_id')->nullable()->constrained('levels')->nullOnDelete();$table->enum('current_level', [1, 2, 3])->default(1);
+            $table->integer('current_level')->default(1); // 1, 2 ou 3
             $table->enum('status', ['pending', 'in_progress', 'validated', 'rejected'])->default('pending');
             $table->float('primary_score')->nullable();
             $table->float('secondary_score')->nullable();

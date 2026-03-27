@@ -1,143 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <title>Staffing2Earn</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: #f5f7fa;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 50px;
-            background: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .navbar img {
-            height: 50px;
-        }
-
-        .nav-links a {
-            margin-left: 20px;
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-        }
-
-        .nav-links a:hover {
-            color: #6c5ce7;
-        }
-
-        .hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 80px 50px;
-        }
-
-        .hero-text {
-            max-width: 500px;
-        }
-
-        .hero-text h1 {
-            font-size: 40px;
-            color: #2d3436;
-        }
-
-        .hero-text p {
-            color: #636e72;
-            margin-top: 20px;
-        }
-
-        .btn {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 12px 25px;
-            background: #6c5ce7;
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
-        }
-
-        .hero img {
-            width: 400px;
-        }
-
-        .about {
-            padding: 80px 50px;
-            background: white;
-            text-align: center;
-        }
-
-        .about h2 {
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-
-        .about p {
-            max-width: 700px;
-            margin: auto;
-            color: #555;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: #2d3436;
-            color: white;
-        }
-    </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
+<body class="bg-gray-100">
 
-    <div class="navbar">
-        <img src="{{ asset('images/2eran.png') }}" alt="Logo">
 
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#about">About</a>
-            <a href="{{ route('login') }}">Login</a>
+    <nav class="bg-gray-800 text-white">
+        <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
+            <div class="flex items-center gap-3">
+                <img src="/images/logo.png" class="w-32">
+                <span class="text-xl font-bold">Staffing2Earn</span>
+            </div>
+
+            <div class="space-x-6">
+                <a href="{{ route('home') }}" class="hover:text-green-400">Home</a>
+
+                <a href="#about" class="hover:text-green-400">About</a>
+
+                <a href="{{ route('auth.login') }}" class="hover:text-green-400">Login</a>
+            </div>
         </div>
-    </div>
+    </nav>
 
-    <section class="hero">
-        <div class="hero-text">
-            <h1>Welcome to Staffing2Earn</h1>
-            <p>
-                An intelligent recruitment platform that connects talent with the best opportunities.
-            </p>
 
-            <a href="#" class="btn">Get Started</a>
-        </div>
+    <section class="text-center py-16">
+        <h1 class="text-4xl font-bold">
+            Welcome to Staffing2Earn
+        </h1>
 
-        <img src="{{ asset('images/2earn.png') }}" alt="Illustration">
-    </section>
-
-    <section id="about" class="about">
-        <h2>About the Platform</h2>
-        <p>
-            Staffing2Earn is an innovative recruitment platform that enables companies to find the best candidates
-            and allows applicants to progress through a structured system of tests and levels.
-            Our goal is to make the recruitment process smarter, more structured, and more efficient.
+        <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
+            An intelligent recruitment platform that connects talent with the best opportunities.
         </p>
+
+        <button class="mt-6 bg-green-500 text-white px-6 py-3 rounded-lg shadow">
+            Get Started
+        </button>
+
+        <div class="mt-10">
+            <img src="/images/logo.png" class="w-72 mx-auto">
+        </div>
     </section>
 
-    <footer>
-        © {{ date('Y') }} Staffing2Earn - All rights reserved
-    </footer>
+    <section id="about" class="max-w-5xl mx-auto py-12 px-6">
+        <h2 class="text-2xl font-bold mb-6">About Staffing2Earn</h2>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="font-semibold">Smart Tests</h3>
+                <p class="text-sm text-gray-600 mt-2">
+                    Create and manage multi-level assessment tests.
+                </p>
+            </div>
+
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="font-semibold">Candidate Management</h3>
+                <p class="text-sm text-gray-600 mt-2">
+                    Track candidates throughout recruitment.
+                </p>
+            </div>
+
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="font-semibold">Analytics</h3>
+                <p class="text-sm text-gray-600 mt-2">
+                    Analyze performance and results easily.
+                </p>
+            </div>
+        </div>
+    </section>
+
 
 </body>
 

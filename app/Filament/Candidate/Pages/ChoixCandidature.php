@@ -2,11 +2,8 @@
 
 namespace App\Filament\Candidate\Pages;
 
-use Filament\Pages\Page;
-use Filament\Actions\Action;
 use App\Models\ApplicationProgress;
-use App\Models\Offre;
-use Filament\Forms\Components\Select;
+use Filament\Pages\Page;
 
 class ChoixCandidature extends Page
 {
@@ -17,16 +14,21 @@ class ChoixCandidature extends Page
 
     public function candidatLibre(): void
     {
-        ApplicationProgress::firstOrCreate([
-            'candidate_id' => auth()->id(),
-            'offre_id' => null,
-        ], [
-            'status' => 'pending',
-            'current_level' => 1,
-            'main_score' => 0,
-            'secondary_score' => 0,
-        ]);
+        ApplicationProgress::firstOrCreate(
+            ['candidate_id' => auth()->id(), 'offre_id' => null],
+            ['status' => 'pending', 'current_level' => 1, 'main_score' => 0, 'secondary_score' => 0]
+        );
 
-        $this->redirect('/candidate/upload-cv');
+        $this->redirect(route('filament.candidate.pages.upload-cv'));
+    }
+
+    public function candidateOffre(int $offreId): void
+    {
+        ApplicationProgress::firstOrCreate(
+            ['candidate_id' => auth()->id(), 'offre_id' => $offreId],
+            ['status' => 'pending', 'current_level' => 1, 'main_score' => 0, 'secondary_score' => 0]
+        );
+
+        $this->redirect(route('filament.candidate.pages.upload-cv'));
     }
 }

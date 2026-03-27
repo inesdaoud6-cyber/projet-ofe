@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
+
 class CandidateResource extends Resource
 {
     protected static ?string $model = Candidate::class;
@@ -28,8 +29,18 @@ class CandidateResource extends Resource
                     ->required()->maxLength(255),
                 Forms\Components\TextInput::make('phone')
                     ->tel()->maxLength(255),
-                Forms\Components\TextInput::make('status')
-                    ->required(),
+
+                // FIX : Select à la place du TextInput
+                Forms\Components\Select::make('status')
+                    ->required()
+                    ->options([
+                        'pending'     => 'Pending',
+                        'in_progress' => 'In Progress',
+                        'validated'   => 'Validated',
+                        'rejected'    => 'Rejected',
+                    ])
+                    ->default('pending'),
+
                 Forms\Components\TextInput::make('primary_score')
                     ->numeric(),
                 Forms\Components\TextInput::make('secondary_score')
@@ -49,10 +60,10 @@ class CandidateResource extends Resource
                     ->label('Status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'validated' => 'success',
-                        'rejected' => 'danger',
+                        'validated'   => 'success',
+                        'rejected'    => 'danger',
                         'in_progress' => 'info',
-                        default => 'warning',
+                        default       => 'warning',
                     }),
                 Tables\Columns\IconColumn::make('cv_path')
                     ->label('CV')
@@ -116,9 +127,9 @@ class CandidateResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCandidates::route('/'),
+            'index'  => Pages\ListCandidates::route('/'),
             'create' => Pages\CreateCandidate::route('/create'),
-            'edit' => Pages\EditCandidate::route('/{record}/edit'),
+            'edit'   => Pages\EditCandidate::route('/{record}/edit'),
         ];
     }
 }

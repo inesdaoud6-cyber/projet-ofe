@@ -1,0 +1,23 @@
+footer {
+    text-align: center;
+    padding: 2rem;
+    background: #2d3436;
+    color: white;
+    margin-top: 4rem;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+footer a {
+    color: #a29bfe;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: white;
+}

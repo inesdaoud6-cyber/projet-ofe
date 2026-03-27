@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\ApplicationProgressResource\Pages;
 
 use App\Filament\Resources\ApplicationProgressResource;
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Actions;
 
 class ListApplicationProgress extends ListRecords
 {
