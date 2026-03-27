@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Staffing2Earn</title>
 
-   
-    <link rel="stylesheet" href="{{ asset('css/global.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+
+    @vite(['resources/css/global.css', 'resources/css/navbar.css'])
     <style>
         .login-container {
             max-width: 400px;
@@ -90,7 +89,7 @@
 </head>
 
 <body>
-   
+
     <nav class="navbar">
         <div class="navbar-brand">
             <img src="{{ asset('images/2earn.png') }}" alt="Logo">
@@ -103,7 +102,7 @@
         </ul>
     </nav>
 
-  
+
     <div class="login-container">
         <h2>Login to your account</h2>
 
@@ -115,8 +114,8 @@
             </div>
         @endif
 
-       <form method="POST" action="{{ route('auth.login.post') }}">
-    @csrf
+        <form method="POST" action="{{ route('auth.login.post') }}">
+            @csrf
 
             <div class="form-group">
                 <label for="email">Email Address</label>
