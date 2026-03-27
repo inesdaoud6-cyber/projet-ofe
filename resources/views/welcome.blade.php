@@ -14,7 +14,7 @@
     <nav class="bg-gray-800 text-white">
         <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
             <div class="flex items-center gap-3">
-                <img src="/images/logo.png" class="w-32">
+                <img src="{{ Vite::asset('resources/images/logo.png') }}" class="w-32">
                 <span class="text-xl font-bold">Staffing2Earn</span>
             </div>
 
@@ -43,7 +43,7 @@
         </button>
 
         <div class="mt-10">
-            <img src="/images/logo.png" class="w-72 mx-auto">
+            <img src="{{ Vite::asset('resources/images/logo.png') }}" class="w-72 mx-auto">
         </div>
     </section>
 
