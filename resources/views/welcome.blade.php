@@ -19,11 +19,11 @@
             </div>
 
             <div class="space-x-6">
-                <a href="{{ route('home') }}" class="hover:text-green-400">Home</a>
+                <a href="{{ route('home') }}" class="hover:text-green-400">{{ __('Home') }}</a>
 
-                <a href="#about" class="hover:text-green-400">About</a>
+                <a href="#about" class="hover:text-green-400">{{ __('About') }}</a>
 
-                <a href="{{ route('auth.login') }}" class="hover:text-green-400">Login</a>
+                <a href="{{ route('auth.login') }}" class="hover:text-green-400">{{ __('Login') }}</a>
             </div>
         </div>
     </nav>
@@ -31,15 +31,15 @@
 
     <section class="text-center py-16">
         <h1 class="text-4xl font-bold">
-            Welcome to Staffing2Earn
+            {{ __('Welcome to Staffing2Earn') }}
         </h1>
 
         <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
-            An intelligent recruitment platform that connects talent with the best opportunities.
+            {{ __('An intelligent recruitment platform that connects talent with the best opportunities.') }}
         </p>
 
         <button class="mt-6 bg-green-500 text-white px-6 py-3 rounded-lg shadow">
-            Get Started
+            {{ __('Get Started') }}
         </button>
 
         <div class="mt-10">
@@ -48,27 +48,27 @@
     </section>
 
     <section id="about" class="max-w-5xl mx-auto py-12 px-6">
-        <h2 class="text-2xl font-bold mb-6">About Staffing2Earn</h2>
+        <h2 class="text-2xl font-bold mb-6">{{ __('About Staffing2Earn') }}</h2>
 
         <div class="grid md:grid-cols-3 gap-6">
             <div class="bg-white p-4 rounded shadow">
-                <h3 class="font-semibold">Smart Tests</h3>
+                <h3 class="font-semibold">{{ __('Smart Tests') }}</h3>
                 <p class="text-sm text-gray-600 mt-2">
-                    Create and manage multi-level assessment tests.
+                    {{ __('Create and manage multi-level assessment tests') }}.
                 </p>
             </div>
 
             <div class="bg-white p-4 rounded shadow">
-                <h3 class="font-semibold">Candidate Management</h3>
+                <h3 class="font-semibold">{{ __('Candidate Management') }}</h3>
                 <p class="text-sm text-gray-600 mt-2">
-                    Track candidates throughout recruitment.
+                    {{ __('Track candidates throughout recruitment') }}.
                 </p>
             </div>
 
             <div class="bg-white p-4 rounded shadow">
                 <h3 class="font-semibold">Analytics</h3>
                 <p class="text-sm text-gray-600 mt-2">
-                    Analyze performance and results easily.
+                    {{ __('Analyze performance and results easily') }}.
                 </p>
             </div>
         </div>

@@ -4,7 +4,7 @@
         {{-- Header --}}
         <div class="p-4 rounded-lg" style="background-color: #581c87;">
             <h2 class="text-xl font-bold text-white">
-                🎯 Level {{ $this->currentLevel }} — Questions
+                🎯 Level {{ $this->currentLevel }} — {{ __('Questions') }}
             </h2>
             <p style="color: #d8b4fe;">
                 {{ __('Answer all questions then click "Submit"') }}
@@ -59,11 +59,11 @@
         <div class="flex gap-4 pb-6">
             <button wire:click="saveAnswers"
                 style="padding:12px 24px; background-color:#4b5563; color:white; border-radius:8px; font-weight:bold;">
-                💾 Save
+                💾 {{ __('Save') }}
             </button>
             <button wire:click="submitLevel"
                 style="padding:12px 24px; background-color:#7c3aed; color:white; border-radius:8px; font-weight:bold;">
-                ✅ Submit Level {{ $this->currentLevel }}
+                ✅ {{ __('Submit Level') }} {{ $this->currentLevel }}
             </button>
         </div>
 
