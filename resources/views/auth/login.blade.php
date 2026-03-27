@@ -92,7 +92,7 @@
 
     <nav class="navbar">
         <div class="navbar-brand">
-            <img src="{{ asset('images/2earn.png') }}" alt="Logo">
+            <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="Logo">
             <h2>Staffing2Earn</h2>
         </div>
 
