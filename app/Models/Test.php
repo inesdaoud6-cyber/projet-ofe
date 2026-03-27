@@ -14,7 +14,6 @@ class Test extends Model
         'description',
         'eligibility_threshold',
         'talent_threshold',
-       
     ];
 
   
