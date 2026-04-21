@@ -10,70 +10,33 @@ body {
     color: #333;
 }
 
-/* Common Button Styles */
 .btn {
     display: inline-block;
     padding: 0.75rem 2rem;
-    background: #00b894;
+    background: #1a1a8c;
     color: white;
     text-decoration: none;
-    border-radius: 5px;
-    transition: background 0.3s;
+    border-radius: 10px;
+    transition: all 0.2s;
     font-weight: 600;
     border: none;
     cursor: pointer;
 }
+.btn:hover { background: #3730a3; transform: translateY(-2px); }
+.btn-primary { background: #1a1a8c; }
+.btn-primary:hover { background: #3730a3; }
+.btn-danger { background: #dc2626; }
+.btn-danger:hover { background: #b91c1c; }
 
-.btn:hover {
-    background: #00a383;
-}
+.mt-4 { margin-top: 1rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-8 { margin-bottom: 2rem; }
+.p-6 { padding: 1.5rem; }
+.text-center { text-align: center; }
+.font-bold { font-weight: bold; }
+.font-semibold { font-weight: 600; }
 
-.btn-primary {
-    background: #667eea;
-}
-
-.btn-primary:hover {
-    background: #5568d3;
-}
-
-.btn-danger {
-    background: #ff6b6b;
-}
-
-.btn-danger:hover {
-    background: #ff5252;
-}
-
-/* Common spacing utilities */
-.mt-4 {
-    margin-top: 1rem;
-}
-
-.mb-4 {
-    margin-bottom: 1rem;
-}
-
-.mb-6 {
-    margin-bottom: 1.5rem;
-}
-
-.mb-8 {
-    margin-bottom: 2rem;
-}
-
-.p-6 {
-    padding: 1.5rem;
-}
-
-/* Common text utilities */
-.text-center {
-    text-align: center;
-}
-
-.font-bold {
-    font-weight: bold;
-}
-
-.font-semibold {
-    font-weight: 600;
+@media (max-width: 768px) {
+    .btn { width: 100%; text-align: center; }
 }
