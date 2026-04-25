@@ -22,9 +22,8 @@
 .profile-stat {
     background: white; border-radius: 14px; padding: 1.25rem;
     text-align: center; box-shadow: 0 2px 12px rgba(26,26,140,0.08);
-    border: 1px solid #f0f0f0; transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #f0f0f0;
 }
-.profile-stat:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,26,140,0.12); }
 .profile-stat-value { font-size: 1.8rem; font-weight: 800; color: #1a1a8c; }
 .profile-stat-label { font-size: 0.78rem; color: #6b7280; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.2rem; }
 .profile-sections { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
@@ -50,10 +49,3 @@
     margin-top: 1rem;
 }
 .profile-edit-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 18px rgba(26,26,140,0.4); color: white; }
-@media (max-width: 768px) {
-    .profile-hero { flex-direction: column; text-align: center; padding: 1.5rem; }
-    .profile-avatar { width: 70px; height: 70px; font-size: 1.6rem; }
-    .profile-stats { grid-template-columns: 1fr; }
-    .profile-sections { grid-template-columns: 1fr; }
-    .profile-row { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
-}
