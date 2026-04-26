@@ -18,9 +18,8 @@ Route::get('/auth/register', [AuthController::class, 'showRegister'])->name('aut
 Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register.post');
 Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
-Route::get('/login', function () {
-    return redirect()->route('filament.candidate.auth.login');
-})->name('login');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/candidate/logout', function () {
     Auth::logout();

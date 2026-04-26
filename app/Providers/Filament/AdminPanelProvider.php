@@ -2,16 +2,10 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Widgets\LatestApplications;
-use App\Filament\Widgets\StatsOverview;
-use App\Http\Middleware\AdminMiddleware;
+use App\Filament\Pages\Auth\Login;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\MenuItem;
-use Filament\Navigation\NavigationGroup;
-use Filament\Navigation\NavigationItem;
-use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -31,35 +25,10 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
-            ->colors(['primary' => Color::Indigo])
-            ->renderHook(
-                'panels::topbar.end',
-                fn () => view('partials.lang-switcher-topbar')
-            )
-            ->userMenuItems([
-                MenuItem::make()
-                    ->label('Espace Candidat')
-                    ->icon('heroicon-o-user-circle')
-                    ->url(fn () => route('filament.candidate.pages.dashboard')),
-            ])
-            ->navigationGroups([
-                NavigationGroup::make('Recrutement')
-                    ->label(fn () => __('nav.recruitment')),
-                NavigationGroup::make('Évaluations')
-                    ->label(fn () => __('nav.evaluations')),
-                NavigationGroup::make('Configuration')
-                    ->label(fn () => __('nav.configuration'))
-                    ->collapsed(),
-            ])
+            ->login(Login::class)
+            ->colors(['primary' => Color::Violet])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->pages([Pages\Dashboard::class])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-                StatsOverview::class,
-                LatestApplications::class,
-            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -73,7 +42,6 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-                AdminMiddleware::class,
             ]);
     }
 }

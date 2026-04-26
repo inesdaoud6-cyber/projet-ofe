@@ -26,7 +26,7 @@ class CandidatePanelProvider extends PanelProvider
             ->id('candidate')
             ->path('candidate')
             ->colors(['primary' => Color::Purple])
-            ->login()
+            ->authGuard('web')
             ->registration()
             ->homeUrl(fn () => route('filament.candidate.pages.dashboard'))
             ->renderHook(

@@ -148,7 +148,7 @@ class ApplicationProgressResource extends Resource
                             'user_id'  => $record->candidate->user_id,
                             'type'     => 'info',
                             'title'    => '🎯 Niveau ' . ($newLevel - 1) . ' validé !',
-                            'message'  => 'Bravo ! Votre niveau ' . ($newLevel - 1) . ' a été validé par l\'administrateur. Vous pouvez maintenant passer au niveau ' . $newLevel . '.',
+                            'message'  => 'Bravo ! Votre niveau ' . ($newLevel - 1) . ' a été validé. Vous pouvez maintenant passer au niveau ' . $newLevel . '.',
                             'offre_id' => $record->offre_id,
                         ]);
 
@@ -193,7 +193,7 @@ class ApplicationProgressResource extends Resource
                             'user_id'  => $record->candidate->user_id,
                             'type'     => 'rejected',
                             'title'    => '❌ Candidature rejetée',
-                            'message'  => 'Votre candidature' . ($record->offre ? ' pour l\'offre "' . $record->offre->title . '"' : '') . ' n\'a pas été retenue. Vous pouvez postuler à d\'autres offres.',
+                            'message'  => 'Votre candidature' . ($record->offre ? ' pour l\'offre "' . $record->offre->title . '"' : '') . ' n\'a pas été retenue.',
                             'offre_id' => $record->offre_id,
                         ]);
 
@@ -236,6 +236,7 @@ class ApplicationProgressResource extends Resource
         return [
             'index'  => Pages\ListApplicationProgress::route('/'),
             'create' => Pages\CreateApplicationProgress::route('/create'),
+            'view'   => Pages\ViewApplicationProgress::route('/{record}'),
             'edit'   => Pages\EditApplicationProgress::route('/{record}/edit'),
         ];
     }
