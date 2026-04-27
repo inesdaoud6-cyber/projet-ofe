@@ -8,6 +8,10 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/css/auth/login.css',
+                'resources/css/auth/register.css',
+                'resources/css/global.css',
+                'resources/css/navbar.css',
                 'resources/css/candidate-dashboard.css',
                 'resources/css/candidate-application-space.css',
                 'resources/css/candidate-choix.css',

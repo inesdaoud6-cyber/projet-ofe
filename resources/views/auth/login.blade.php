@@ -7,13 +7,13 @@
     <title>Login — Staffing2Earn</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/auth/login.css') }}">
+    @vite(['resources/css/auth/login.css'])
+</head>
 
 <body>
 
     <div class="page">
 
-        {{-- FLÈCHE RETOUR ACCUEIL --}}
         <a href="{{ url('/') }}" class="back-home">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M19 12H5M12 5l-7 7 7 7" />
@@ -23,7 +23,6 @@
 
         <div class="card">
 
-            {{-- ========== ESPACE CANDIDAT ========== --}}
             <div class="panel" id="panel-c">
 
                 <span class="role-pill candidate">
@@ -87,7 +86,6 @@
                 </div>
             </div>
 
-            {{-- Lien discret vers espace admin --}}
             <div class="admin-link-wrap" id="admin-link-wrap">
                 <a href="#" class="admin-link" onclick="showAdmin(); return false;">
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -98,7 +96,6 @@
                 </a>
             </div>
 
-            {{-- ========== ESPACE ADMIN ========== --}}
             <div class="panel hidden" id="panel-a">
 
                 <span class="role-pill admin">
@@ -170,8 +167,8 @@
                 </div>
             </div>
 
-        </div>{{-- .card --}}
-    </div>{{-- .page --}}
+        </div>
+    </div>
 
     <script>
         function showAdmin() {
@@ -191,7 +188,6 @@
             el.type = el.type === 'password' ? 'text' : 'password';
         }
 
-        // Si erreur côté admin, ouvrir directement le panel admin
         @if ($errors->any() && session('login_type') === 'admin')
             showAdmin();
         @endif
