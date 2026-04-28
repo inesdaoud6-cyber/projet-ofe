@@ -26,13 +26,12 @@ class Dashboard extends Page
             ? ApplicationProgress::where('candidate_id', $candidate->id)->with(['offre', 'test'])->latest()->get()
             : collect();
 
-        $unreadCount = $candidate
-            ? CandidateNotification::where('candidate_id', $candidate->id)->where('is_read', false)->count()
-            : 0;
+        $unreadCount = CandidateNotification::where('user_id', $user->id)->where('is_read', false)->count();
 
         return [
             'isAdminViewing'        => $isAdminViewing,
             'userName'              => $user->name,
+            'totalApplications'     => $applications->count(),
             'pendingApplications'   => $applications->where('status', 'pending')->count(),
             'completedApplications' => $applications->where('status', 'validated')->count(),
             'recentApplications'    => $applications->take(5),
