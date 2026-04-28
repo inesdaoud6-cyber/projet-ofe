@@ -1,4 +1,5 @@
 <x-filament-panels::page>
+<<<<<<< HEAD
     @vite('resources/css/candidate-dashboard.css')
 
     @if($isAdminViewing)
@@ -101,4 +102,7 @@
         <div class="empty-state">{{ __('No applications yet.') }}</div>
         @endif
     </div>
+=======
+    @livewire('candidate.dashboard-component')
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
 </x-filament-panels::page>

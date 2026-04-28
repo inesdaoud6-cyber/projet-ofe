@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .login-page-wrapper {
     min-height: calc(100vh - 72px);
     display: flex;
@@ -272,5 +273,392 @@
     .login-container {
         padding: 1.75rem 1.25rem;
         border-radius: 12px;
+=======
+/* ============================================================
+   Staffing2Earn — Login Page
+   Fichier : public/css/login.css
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ---------- PAGE ---------- */
+.page {
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #ede9f8 0%, #e8eaf6 40%, #dde8f5 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1rem;
+    position: relative;
+}
+
+/* ---------- FLÈCHE RETOUR ACCUEIL ---------- */
+.back-home {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #7c3aed;
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.back-home:hover {
+    opacity: 1;
+}
+
+.back-home svg {
+    width: 15px;
+    height: 15px;
+}
+
+/* ---------- CARD ---------- */
+.card {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow:
+        0 8px 40px rgba(99, 60, 180, 0.10),
+        0 1px 4px rgba(99, 60, 180, 0.06);
+    width: 100%;
+    max-width: 460px;
+    overflow: hidden;
+}
+
+/* ---------- PANEL ---------- */
+.panel {
+    padding: 2.25rem 2.25rem 2rem;
+}
+
+.panel.hidden {
+    display: none;
+}
+
+/* ---------- ROLE PILL ---------- */
+.role-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.role-pill.candidate {
+    background: #ede9ff;
+    color: #7c3aed;
+}
+
+.role-pill.admin {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+/* ---------- TITLES ---------- */
+.panel-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a6e;
+    margin-bottom: 4px;
+}
+
+.panel-sub {
+    font-size: 13px;
+    color: #9ca3af;
+    margin-bottom: 1.75rem;
+}
+
+/* ---------- ALERT ---------- */
+.alert-error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #dc2626;
+    margin-bottom: 1.25rem;
+}
+
+/* ---------- FORM FIELDS ---------- */
+.field {
+    margin-bottom: 1rem;
+}
+
+.field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+    letter-spacing: 0.2px;
+}
+
+.req {
+    color: #ef4444;
+}
+
+.field input[type="email"],
+.field input[type="password"],
+.field input[type="text"] {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: #1f2937;
+    background: #fafafa;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.field input:focus {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08);
+    background: #ffffff;
+}
+
+.field input::placeholder {
+    color: #d1d5db;
+}
+
+/* ---------- PASSWORD TOGGLE ---------- */
+.input-wrap {
+    position: relative;
+}
+
+.input-wrap input {
+    padding-right: 40px;
+}
+
+.eye {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.eye:hover {
+    color: #7c3aed;
+}
+
+/* ---------- ROW (remember + forgot) ---------- */
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.5rem 0 1.5rem;
+}
+
+.remember {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: #6b7280;
+    cursor: pointer;
+}
+
+.remember input[type="checkbox"] {
+    accent-color: #7c3aed;
+    width: 14px;
+    height: 14px;
+}
+
+.forgot {
+    font-size: 12px;
+    color: #7c3aed;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot:hover {
+    text-decoration: underline;
+}
+
+/* ---------- BUTTONS ---------- */
+.btn {
+    width: 100%;
+    padding: 13px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: opacity 0.2s, transform 0.1s;
+}
+
+.btn:hover {
+    opacity: 0.92;
+}
+
+.btn:active {
+    transform: scale(0.99);
+}
+
+.btn.primary {
+    background: linear-gradient(135deg, #1a1a6e 0%, #4f46e5 100%);
+    color: #ffffff;
+}
+
+.btn.admin-primary {
+    background: linear-gradient(135deg, #92400e 0%, #d97706 100%);
+    color: #ffffff;
+}
+
+/* ---------- SEPARATOR ---------- */
+.sep {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 1.4rem 0 1rem;
+}
+
+.sep span {
+    font-size: 11px;
+    color: #d1d5db;
+    white-space: nowrap;
+}
+
+.sep::before,
+.sep::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #f3f4f6;
+}
+
+/* ---------- REGISTER LINK ---------- */
+.register-link {
+    text-align: center;
+    font-size: 12px;
+    color: #9ca3af;
+    padding-bottom: 0.25rem;
+}
+
+.register-link a {
+    color: #7c3aed;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- ADMIN LINK (discret) ---------- */
+.admin-link-wrap {
+    text-align: center;
+    padding: 0.25rem 2.25rem 1.5rem;
+}
+
+.admin-link {
+    font-size: 11px;
+    color: #c4b5fd;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    transition: color 0.2s;
+}
+
+.admin-link:hover {
+    color: #7c3aed;
+}
+
+/* ---------- ADMIN NOTICE ---------- */
+.admin-notice {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #92400e;
+    margin-bottom: 1.25rem;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    line-height: 1.5;
+}
+
+.admin-notice svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+/* ---------- BACK TO CANDIDATE ---------- */
+.back-candidate-wrap {
+    padding: 1rem 2.25rem 1.5rem;
+    border-top: 1px solid #f5f3ff;
+}
+
+.back-candidate {
+    font-size: 12px;
+    color: #9ca3af;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s;
+}
+
+.back-candidate:hover {
+    color: #7c3aed;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 480px) {
+    .page {
+        padding: 2rem 0.75rem;
+    }
+
+    .back-home {
+        top: 1rem;
+        left: 1rem;
+    }
+
+    .panel {
+        padding: 1.75rem 1.5rem 1.5rem;
+    }
+
+    .panel-title {
+        font-size: 20px;
+    }
+
+    .admin-link-wrap {
+        padding: 0.25rem 1.5rem 1.25rem;
+    }
+
+    .back-candidate-wrap {
+        padding: 1rem 1.5rem 1.25rem;
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
     }
 }

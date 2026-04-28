@@ -1,0 +1,52 @@
+.as-header {
+    background: linear-gradient(135deg, #1a1a8c 0%, #3730a3 50%, #c026d3 100%);
+    border-radius: 16px;
+    padding: 1.75rem 2rem;
+    color: white;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.as-header h2 { font-size: 1.5rem; font-weight: 800; margin: 0 0 0.2rem 0; }
+.as-header p { margin: 0; opacity: 0.85; font-size: 0.95rem; }
+.as-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.as-stat {
+    background: white; border-radius: 14px; padding: 1.25rem 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+    box-shadow: 0 2px 12px rgba(26,26,140,0.08); border: 1px solid #f0f0f0;
+}
+.as-stat-icon {
+    width: 48px; height: 48px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; flex-shrink: 0;
+}
+.as-stat-icon.blue { background: linear-gradient(135deg, #1a1a8c, #3730a3); }
+.as-stat-icon.cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+.as-stat-value { font-size: 1.8rem; font-weight: 800; color: #1a1a8c; line-height: 1; }
+.as-stat-label { font-size: 0.78rem; color: #6b7280; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.as-table-section {
+    background: white; border-radius: 14px; padding: 1.5rem;
+    box-shadow: 0 2px 12px rgba(26,26,140,0.08); border: 1px solid #f0f0f0;
+}
+.as-table-title { font-size: 1.1rem; font-weight: 700; color: #1a1a8c; margin-bottom: 1rem; }
+table.as-tbl { width: 100%; border-collapse: collapse; }
+.as-tbl th {
+    background: #f8f9ff; color: #6b7280; font-size: 0.78rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px; padding: 0.75rem 1rem;
+    text-align: left; border-bottom: 2px solid #e5e7eb;
+}
+.as-tbl td { padding: 0.85rem 1rem; border-bottom: 1px solid #f3f4f6; font-size: 0.9rem; color: #374151; vertical-align: middle; }
+.as-tbl tr:last-child td { border-bottom: none; }
+.as-tbl tr:hover td { background: #f8f9ff; }
+.badge { display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; }
+.badge-pending { background: #fef3c7; color: #92400e; }
+.badge-validated { background: #d1fae5; color: #065f46; }
+.badge-rejected { background: #fee2e2; color: #991b1b; }
+.badge-in_progress { background: #dbeafe; color: #1e40af; }
+.empty-state { text-align: center; padding: 2.5rem; color: #9ca3af; font-size: 0.95rem; }

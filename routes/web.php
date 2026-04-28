@@ -14,6 +14,7 @@ Route::get('/', function () {
 
 Route::get('/auth/login', [AuthController::class, 'showLogin'])->name('auth.login');
 Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login.post');
+<<<<<<< HEAD
 Route::get('/auth/register', [AuthController::class, 'showRegister'])->name('auth.register');
 Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register.post');
 Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
@@ -21,6 +22,14 @@ Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logou
 Route::get('/login', function () {
     return redirect()->route('filament.candidate.auth.login');
 })->name('login');
+=======
+Route::get('/auth/register', [AuthController::class, 'showRegister'])->name('auth.register')->name('register');
+Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register.post');
+Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
 
 Route::post('/candidate/logout', function () {
     Auth::logout();

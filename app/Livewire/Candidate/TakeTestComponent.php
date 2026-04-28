@@ -9,7 +9,10 @@ use App\Models\CandidateNotification;
 use App\Models\Question;
 use App\Models\QuestionResponse;
 use App\Models\Response;
+<<<<<<< HEAD
 use Filament\Notifications\Notification;
+=======
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
 use Livewire\Component;
 
 class TakeTestComponent extends Component
@@ -24,6 +27,11 @@ class TakeTestComponent extends Component
     public int $totalQuestions = 0;
     public int $answeredCount = 0;
     public bool $autoSaving = false;
+<<<<<<< HEAD
+=======
+    public string $flashMessage = '';
+    public string $flashType = '';
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
 
     public function mount(): void
     {
@@ -117,6 +125,10 @@ class TakeTestComponent extends Component
         $this->autoSaving = true;
         $this->saveAnswers();
         $this->autoSaving = false;
+<<<<<<< HEAD
+=======
+        $this->setFlash('✅ Sauvegarde automatique effectuée', 'success');
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
     }
 
     public function saveAnswers(): void
@@ -169,14 +181,22 @@ class TakeTestComponent extends Component
         ]);
 
         if (! $this->autoSaving) {
+<<<<<<< HEAD
             session()->flash('save_success', true);
+=======
+            $this->setFlash('💾 Réponses sauvegardées !', 'success');
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
         }
     }
 
     public function submitLevel(): void
     {
         if (empty($this->answers)) {
+<<<<<<< HEAD
             session()->flash('error', 'Veuillez répondre à au moins une question.');
+=======
+            $this->setFlash('⚠️ Veuillez répondre à au moins une question.', 'warning');
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
             return;
         }
 
@@ -196,6 +216,24 @@ class TakeTestComponent extends Component
             'message'  => 'Vos réponses du niveau ' . $this->currentLevel . ' ont été soumises. En attente de validation.',
             'offre_id' => $application->offre_id,
         ]);
+<<<<<<< HEAD
+=======
+
+        $this->setFlash('✅ Niveau ' . $this->currentLevel . ' soumis avec succès !', 'success');
+    }
+
+    private function setFlash(string $message, string $type = 'success'): void
+    {
+        $this->flashMessage = $message;
+        $this->flashType    = $type;
+        $this->dispatch('flash-message');
+    }
+
+    public function clearFlash(): void
+    {
+        $this->flashMessage = '';
+        $this->flashType    = '';
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
     }
 
     public function render()

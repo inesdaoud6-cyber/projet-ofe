@@ -2,9 +2,17 @@
 
 namespace App\Providers\Filament;
 
+<<<<<<< HEAD
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+=======
+use App\Http\Middleware\CandidateMiddleware;
+use Filament\Http\Middleware\Authenticate;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -24,8 +32,33 @@ class CandidatePanelProvider extends PanelProvider
             ->id('candidate')
             ->path('candidate')
             ->colors(['primary' => Color::Purple])
+<<<<<<< HEAD
             ->login()
             ->registration()
+=======
+            ->authGuard('web')
+            ->registration()
+            ->homeUrl(fn () => route('filament.candidate.pages.dashboard'))
+            ->renderHook(
+                'panels::topbar.end',
+                fn () => view('partials.lang-switcher-topbar')
+            )
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Mon Profil')
+                    ->icon('heroicon-o-user-circle')
+                    ->url(fn () => route('filament.candidate.pages.my-profile')),
+                MenuItem::make()
+                    ->label('Paramètres du Compte')
+                    ->icon('heroicon-o-cog-6-tooth')
+                    ->url(fn () => route('filament.candidate.pages.account-settings')),
+                MenuItem::make()
+                    ->label('Panel Admin')
+                    ->icon('heroicon-o-shield-check')
+                    ->url(fn () => route('filament.admin.pages.dashboard'))
+                    ->visible(fn () => auth()->check() && auth()->user()->hasRole('admin')),
+            ])
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
             ->discoverResources(
                 in: app_path('Filament/Candidate/Resources'),
                 for: 'App\\Filament\\Candidate\\Resources'
@@ -45,6 +78,13 @@ class CandidatePanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+<<<<<<< HEAD
             ->authMiddleware([Authenticate::class]);
+=======
+            ->authMiddleware([
+                Authenticate::class,
+                CandidateMiddleware::class,
+            ]);
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
     }
 }

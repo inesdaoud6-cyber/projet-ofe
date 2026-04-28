@@ -37,7 +37,11 @@ class AuthController extends Controller
 
         return back()->withErrors([
             'email' => __('The provided credentials do not match our records.'),
+<<<<<<< HEAD
         ])->onlyInput('email');
+=======
+        ])->onlyInput('email')->with('login_type', $request->input('login_type'));
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
     }
 
     public function showRegister(): View

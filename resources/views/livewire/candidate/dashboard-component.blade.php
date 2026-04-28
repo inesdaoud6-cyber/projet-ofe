@@ -8,6 +8,7 @@
     </div>
     @endif
 
+<<<<<<< HEAD
     <div class="dash-hero" style="background:linear-gradient(135deg,var(--navy, #1E1EA8),var(--violet, #7C3AED));padding:2rem;border-radius:16px;color:white;display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
         <div>
             <h1 style="font-size:1.8rem;font-weight:800;margin-bottom:0.5rem;">👋 {{ __('Hello') }}, {{ $userName }} !</h1>
@@ -17,10 +18,22 @@
             <span class="dash-notif-icon" style="font-size:1.5rem;">🔔</span>
             @if($unreadCount > 0)
             <span class="dash-notif-badge" style="position:absolute;top:-5px;right:-5px;background:red;color:white;font-size:0.7rem;font-weight:700;padding:2px 6px;border-radius:999px;">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
+=======
+    <div class="dash-hero">
+        <div>
+            <h1>👋 {{ __('Hello') }}, {{ $userName }} !</h1>
+            <p>{{ __('Welcome to your candidate space. Manage your applications easily.') }}</p>
+        </div>
+        <a href="/candidate/notifications" class="dash-notif-btn">
+            <span class="dash-notif-icon">🔔</span>
+            @if($unreadCount > 0)
+            <span class="dash-notif-badge">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
             @endif
         </a>
     </div>
 
+<<<<<<< HEAD
     <div class="dash-cards" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));gap:1.5rem;margin-bottom:2.5rem;">
         <div class="dash-card" style="background:white;padding:1.5rem;border-radius:16px;border:1px solid #e2e8f0;display:flex;align-items:center;gap:1.2rem;box-shadow:0 4px 6px rgba(0,0,0,0.02);">
             <div class="dash-card-icon blue" style="background:#eff6ff;color:#3b82f6;width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">📋</div>
@@ -41,10 +54,33 @@
             <div>
                 <div class="dash-card-value" style="font-size:1.5rem;font-weight:800;">{{ $completedApplications }}</div>
                 <div class="dash-card-label" style="color:#64748b;font-size:0.85rem;">{{ __('Validated') }}</div>
+=======
+    <div class="dash-cards">
+        <div class="dash-card">
+            <div class="dash-card-icon blue">📋</div>
+            <div>
+                <div class="dash-card-value">{{ $totalApplications }}</div>
+                <div class="dash-card-label">{{ __('Total applications') }}</div>
+            </div>
+        </div>
+        <div class="dash-card">
+            <div class="dash-card-icon cyan">⏳</div>
+            <div>
+                <div class="dash-card-value">{{ $pendingApplications }}</div>
+                <div class="dash-card-label">{{ __('Pending') }}</div>
+            </div>
+        </div>
+        <div class="dash-card">
+            <div class="dash-card-icon purple">✅</div>
+            <div>
+                <div class="dash-card-value">{{ $completedApplications }}</div>
+                <div class="dash-card-label">{{ __('Validated') }}</div>
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
             </div>
         </div>
     </div>
 
+<<<<<<< HEAD
     <div class="dash-actions" style="display:flex;gap:1rem;margin-bottom:2.5rem;">
         <a href="/candidate/choix-candidature" class="dash-btn test-btn" style="background:#1e1ea8;color:white;padding:0.8rem 1.5rem;border-radius:10px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;">🚀 {{ __('New application') }}</a>
         <a href="/candidate/take-test" class="dash-btn dash-btn-secondary" style="background:white;color:#1e1ea8;border:1px solid #1e1ea8;padding:0.8rem 1.5rem;border-radius:10px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;">📝 {{ __('Take the test') }}</a>
@@ -57,12 +93,27 @@
                 wire:loading.attr="disabled"
                 wire:target="refreshData"
                 style="display:flex;align-items:center;gap:0.4rem;padding:0.4rem 1rem;border-radius:8px;border:1.5px solid #ede9fe;background:white;color:#1a1a8c;font-size:0.85rem;font-weight:600;cursor:pointer;">
+=======
+    <div class="dash-actions">
+        <a href="/candidate/choix-candidature" class="dash-btn dash-btn-primary">🚀 {{ __('New application') }}</a>
+        <a href="/candidate/take-test" class="dash-btn dash-btn-secondary">📝 {{ __('Take the test') }}</a>
+    </div>
+
+    <div class="dash-table-section">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+            <div class="dash-table-title">📌 {{ __('Recent applications') }}</div>
+            <button wire:click="refreshData"
+                wire:loading.attr="disabled"
+                wire:target="refreshData"
+                style="display:flex;align-items:center;gap:0.4rem;padding:0.35rem 0.9rem;border-radius:8px;border:1.5px solid #ede9fe;background:white;color:#1a1a8c;font-size:0.8rem;font-weight:700;cursor:pointer;">
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
                 <span wire:loading.remove wire:target="refreshData">🔄 {{ __('Actualiser') }}</span>
                 <span wire:loading wire:target="refreshData">⏳</span>
             </button>
         </div>
 
         @if($recentApplications && $recentApplications->count() > 0)
+<<<<<<< HEAD
         <div class="app-cards-grid" style="display:flex;flex-direction:column;gap:1rem;">
             @foreach($recentApplications as $app)
             <div class="app-card" style="border:1px solid #f1f5f9;border-radius:12px;padding:1.2rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
@@ -87,14 +138,50 @@
                 </div>
                 <div style="text-align:right;">
                     <div style="font-size:0.8rem;color:#94a3b8;margin-bottom:0.5rem;">{{ $app->created_at->diffForHumans() }}</div>
+=======
+        <div class="app-cards-grid">
+            @foreach($recentApplications as $app)
+            <div class="app-card">
+                <div class="app-card-header">
+                    <span class="app-card-candidate">{{ $userName }}</span>
+                    <span class="badge badge-{{ $app->status }}">
+                        {{ match($app->status) {
+                            'pending'     => __('Pending'),
+                            'in_progress' => __('In Progress'),
+                            'validated'   => __('Validated'),
+                            'rejected'    => __('Rejected'),
+                            default       => $app->status
+                        } }}
+                    </span>
+                </div>
+                <div class="app-card-title">
+                    {{ $app->offre?->title ?? __('Open application') }}
+                </div>
+                <div class="app-card-meta">
+                    <span>{{ __('Level') }} {{ $app->current_level }}</span>
+                    <span style="font-weight:700;color:#1a1a8c;">{{ $app->main_score }}/100</span>
+                </div>
+                <div class="app-card-footer">
+                    <span class="app-card-date">{{ $app->created_at->diffForHumans() }}</span>
+                    <a href="/candidate/applications" class="app-card-details-btn">
+                        {{ __('View details') }} →
+                    </a>
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
                 </div>
             </div>
             @endforeach
         </div>
         @else
+<<<<<<< HEAD
         <div class="empty-state" style="text-align:center;padding:3rem 0;color:#64748b;">
             {{ __('No applications yet.') }}
         </div>
         @endif
     </div>
 </div>
+=======
+        <div class="empty-state">{{ __('No applications yet.') }}</div>
+        @endif
+    </div>
+</div>
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6

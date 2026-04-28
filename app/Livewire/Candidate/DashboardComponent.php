@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Candidate;
 
+<<<<<<< HEAD
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use App\Models\ApplicationProgress;
@@ -9,6 +10,13 @@ use App\Models\Candidate;
 use App\Models\CandidateNotification;
 
 #[Layout('components.layouts.app')]
+=======
+use App\Models\ApplicationProgress;
+use App\Models\Candidate;
+use App\Models\CandidateNotification;
+use Livewire\Component;
+
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
 class DashboardComponent extends Component
 {
     public string $userName = '';
@@ -26,9 +34,15 @@ class DashboardComponent extends Component
 
     public function loadData(): void
     {
+<<<<<<< HEAD
         $user      = auth()->user();
         if (!$user) return;
         
+=======
+        $user = auth()->user();
+        if (! $user) return;
+
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
         $candidate = Candidate::where('user_id', $user->id)->first();
 
         $this->userName       = $user->name;
@@ -61,4 +75,8 @@ class DashboardComponent extends Component
     {
         return view('livewire.candidate.dashboard-component');
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6

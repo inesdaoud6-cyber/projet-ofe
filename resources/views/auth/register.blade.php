@@ -40,7 +40,11 @@
             </div>
         @endif
 
+<<<<<<< HEAD
         <form method="POST" action="{{ route('auth.register.post') }}">
+=======
+        <form method="POST" action="{{ route('auth.register.post') }}" enctype="multipart/form-data">
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
             @csrf
 
             <div class="form-section">
@@ -104,6 +108,30 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
+=======
+            <div class="form-section">
+                <h3 class="section-title">{{ __('Your CV') }}</h3>
+
+                <div class="form-group">
+                    <label for="cv_path">{{ __('Upload your CV') }} <span class="optional">({{ __('optional') }})</span></label>
+                    <div class="file-upload-area" id="dropZone">
+                        <input type="file" id="cv_path" name="cv_path"
+                            accept=".pdf,.doc,.docx" class="file-input"
+                            onchange="updateFileName(this)">
+                        <div class="file-upload-label">
+                            <span class="file-icon">📄</span>
+                            <span id="fileLabel">{{ __('Click or drag your CV here') }}</span>
+                            <small>PDF, DOC, DOCX — {{ __('Max 5MB') }}</small>
+                        </div>
+                    </div>
+                    @error('cv_path')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
             <button type="submit" class="btn-register">
                 {{ __('Create my account') }} →
             </button>
@@ -124,6 +152,27 @@
             const input = document.getElementById(fieldId);
             input.type = input.type === 'password' ? 'text' : 'password';
         }
+<<<<<<< HEAD
+=======
+
+        function updateFileName(input) {
+            const label = document.getElementById('fileLabel');
+            label.textContent = input.files[0]?.name ?? '{{ __('Click or drag your CV here') }}';
+        }
+
+        const dropZone = document.getElementById('dropZone');
+        dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                document.getElementById('cv_path').files = e.dataTransfer.files;
+                document.getElementById('fileLabel').textContent = file.name;
+            }
+        });
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
     </script>
 
 </body>

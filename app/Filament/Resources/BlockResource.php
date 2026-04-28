@@ -15,12 +15,19 @@ class BlockResource extends Resource
     protected static ?string $model = Block::class;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Blocks';
+<<<<<<< HEAD
+=======
+    protected static ?string $navigationGroup = 'Configuration';
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
 
     public static function form(Form $form): Form
     {
         return $form->schema([
             Forms\Components\TextInput::make('name')->required()->maxLength(255),
+<<<<<<< HEAD
             Forms\Components\TextInput::make('title')->maxLength(255),
+=======
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
             Forms\Components\TextInput::make('order')->required()->numeric()->default(0),
         ]);
     }
@@ -30,7 +37,10 @@ class BlockResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')->label('Name')->searchable(),
+<<<<<<< HEAD
                 Tables\Columns\TextColumn::make('title')->label('Title')->searchable(),
+=======
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
                 Tables\Columns\TextColumn::make('order')->label('Order')->numeric()->sortable(),
                 Tables\Columns\TextColumn::make('created_at')->label('Created At')->dateTime()->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

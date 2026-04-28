@@ -68,10 +68,16 @@ class MyProfile extends Page
                         ->required(),
                 ])
                 ->action(function (array $data): void {
+<<<<<<< HEAD
                     $candidate = Candidate::where('user_id', auth()->id())->first();
                     if ($candidate) {
                         $candidate->update(['status' => $data['status']]);
                         $this->candidate = $candidate->fresh();
+=======
+                    if ($this->candidate) {
+                        $this->candidate->update(['status' => $data['status']]);
+                        $this->candidate = $this->candidate->fresh();
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
                         Notification::make()->title('Statut mis à jour')->success()->send();
                     }
                 }),

@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminMiddleware
 {
+<<<<<<< HEAD
     public function handle(Request $request, Closure $next): Response
     {
         if (!auth()->check() || !auth()->user()->is_admin) {
@@ -16,4 +17,19 @@ class AdminMiddleware
 
         return $next($request);
     }
+=======
+   public function handle(Request $request, Closure $next): Response
+{
+    if (! auth()->check()) {
+        return redirect()->route('filament.admin.auth.login');
+    }
+
+    if (auth()->user()->hasRole('admin')) {
+        return $next($request);
+    }
+
+    return redirect('/candidate/dashboard')
+        ->with('error', 'Accès réservé aux administrateurs.');
+}
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
 }

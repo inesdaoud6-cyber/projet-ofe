@@ -4,9 +4,12 @@ namespace App\Filament\Candidate\Pages;
 
 use Filament\Actions\Action;
 use Filament\Pages\Page;
+<<<<<<< HEAD
 use App\Models\ApplicationProgress;
 use App\Models\CandidateNotification;
 use Illuminate\Support\Facades\Auth;
+=======
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
 
 class Dashboard extends Page
 {
@@ -16,6 +19,7 @@ class Dashboard extends Page
     protected static ?string $slug = 'dashboard';
     protected static ?int $navigationSort = 1;
 
+<<<<<<< HEAD
     protected function getViewData(): array
     {
         $user = Auth::user();
@@ -39,6 +43,8 @@ class Dashboard extends Page
         ];
     }
 
+=======
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
     protected function getHeaderActions(): array
     {
         if (! auth()->user()->can('view-all-applications')) {
@@ -53,4 +59,8 @@ class Dashboard extends Page
                 ->url('/admin'),
         ];
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> c197336818e36134310417f97a6a0f1ef03adec6
