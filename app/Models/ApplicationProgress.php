@@ -1,15 +1,15 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-
 class ApplicationProgress extends Model
 {
     protected $fillable = [
-        'candidate_id',   
+        'candidate_id',
         'offre_id',
         'test_id',
         'status',
@@ -18,22 +18,20 @@ class ApplicationProgress extends Model
         'secondary_score',
         'apply_enabled',
         'score_published',
+        'is_archived',
     ];
 
     protected $casts = [
         'apply_enabled'   => 'boolean',
         'score_published' => 'boolean',
+        'is_archived'     => 'boolean',
+        'main_score'      => 'decimal:2',
+        'secondary_score' => 'decimal:2',
     ];
 
-    public function user(): BelongsTo
+    public function candidate(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'candidate_id');
-    }
-
-   
-    public function candidateProfile(): BelongsTo
-    {
-        return $this->belongsTo(Candidate::class, 'candidate_id', 'user_id');
+        return $this->belongsTo(Candidate::class, 'candidate_id');
     }
 
     public function offre(): BelongsTo
@@ -45,20 +43,17 @@ class ApplicationProgress extends Model
     {
         return $this->belongsTo(Test::class);
     }
-public function application()
-{
-    return $this->belongsTo(Candidate::class);
-}
-public static function canGoToNextLevel($applicationId, $currentLevel)
-{
-    return self::where('application_id', $applicationId)
-        ->where('level', $currentLevel)
-        ->where('status', 'approved')
-        ->exists();
-}
 
     public function responses(): HasMany
     {
         return $this->hasMany(Response::class, 'application_id');
+    }
+
+    public static function canGoToNextLevel(int $applicationId, int $currentLevel): bool
+    {
+        return self::where('id', $applicationId)
+            ->where('current_level', '>', $currentLevel)
+            ->where('status', 'validated')
+            ->exists();
     }
 }

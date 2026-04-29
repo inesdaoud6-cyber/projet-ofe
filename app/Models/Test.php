@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Test extends Model
 {
@@ -16,16 +16,19 @@ class Test extends Model
         'talent_threshold',
     ];
 
-  
-    public function offre(): BelongsTo
-    {
-    
-        return $this->belongsTo(Offre::class, 'id', 'test_id');
-    }
+    public function offres(): HasMany
+{
+    return $this->hasMany(Offre::class, 'test_id');
+}
 
     public function blocks()
     {
         return $this->belongsToMany(Block::class, 'test_block');
+    }
+
+    public function questions()
+    {
+        return $this->belongsToMany(Question::class, 'question_test');
     }
 
     public function applicationProgresses(): HasMany

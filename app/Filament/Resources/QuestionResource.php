@@ -145,54 +145,36 @@ class QuestionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->contentGrid([
-                'md' => 2,
-                'xl' => 3,
-            ])
             ->columns([
-                Tables\Columns\Layout\Stack::make([
-                    Tables\Columns\Layout\Stack::make([
-                        Tables\Columns\TextColumn::make('question_fr')
-                            ->label(__('admin.question'))
-                            ->limit(80)
-                            ->searchable()
-                            ->weight('bold')
-                            ->size('sm'),
-                    ]),
-                    Tables\Columns\Layout\Split::make([
-                        Tables\Columns\TextColumn::make('component')
-                            ->label(__('admin.type'))
-                            ->badge()
-                            ->color('info'),
-                        Tables\Columns\TextColumn::make('level')
-                            ->label(__('Level'))
-                            ->badge()
-                            ->color('warning')
-                            ->prefix('Niv. '),
-                        Tables\Columns\TextColumn::make('classification')
-                            ->label(__('admin.classification'))
-                            ->badge()
-                            ->color('gray'),
-                    ]),
-                    Tables\Columns\Layout\Split::make([
-                        Tables\Columns\IconColumn::make('scorable')
-                            ->label(__('admin.scored'))
-                            ->boolean(),
-                        Tables\Columns\IconColumn::make('auto_evaluation')
-                            ->label('Auto')
-                            ->boolean(),
-                        Tables\Columns\TextColumn::make('block.name')
-                            ->label('Block')
-                            ->badge()
-                            ->color('gray'),
-                    ]),
-                    Tables\Columns\TextColumn::make('tests.name')
-                        ->label(__('admin.tests'))
-                        ->badge()
-                        ->color('success')
-                        ->separator(',')
-                        ->placeholder(__('admin.no_test')),
-                ])->space(2),
+                Tables\Columns\TextColumn::make('question_fr')
+                    ->label(__('admin.question'))
+                    ->limit(50)
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('component')
+                    ->label(__('admin.type'))
+                    ->badge(),
+                Tables\Columns\TextColumn::make('level')
+                    ->label(__('Level'))
+                    ->badge(),
+                Tables\Columns\TextColumn::make('classification')
+                    ->label(__('admin.classification'))
+                    ->badge(),
+                Tables\Columns\IconColumn::make('scorable')
+                    ->label(__('admin.scored'))
+                    ->boolean(),
+                Tables\Columns\IconColumn::make('auto_evaluation')
+                    ->label('Auto')
+                    ->boolean(),
+                Tables\Columns\TextColumn::make('block.name')
+                    ->label('Block')
+                    ->badge()
+                    ->color('gray'),
+                Tables\Columns\TextColumn::make('tests.name')
+                    ->label(__('admin.tests'))
+                    ->badge()
+                    ->color('success')
+                    ->separator(',')
+                    ->placeholder(__('admin.no_test')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->label(__('Edit')),

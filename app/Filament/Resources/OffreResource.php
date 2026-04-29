@@ -64,50 +64,27 @@ class OffreResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->contentGrid([
-                'md' => 2,
-                'xl' => 3,
-            ])
             ->columns([
-                Tables\Columns\Layout\Stack::make([
-                    Tables\Columns\Layout\Split::make([
-                        Tables\Columns\TextColumn::make('title')
-                            ->label(__('admin.title'))
-                            ->searchable()
-                            ->weight('bold'),
-                        Tables\Columns\IconColumn::make('is_published')
-                            ->label(__('admin.published'))
-                            ->boolean(),
-                    ]),
-                    Tables\Columns\Layout\Split::make([
-                        Tables\Columns\TextColumn::make('domain')
-                            ->label(__('admin.domain'))
-                            ->icon('heroicon-o-map-pin')
-                            ->size('sm'),
-                        Tables\Columns\TextColumn::make('contract_type')
-                            ->label(__('admin.contract_type'))
-                            ->badge()
-                            ->color('info'),
-                    ]),
-                    Tables\Columns\Layout\Split::make([
-                        Tables\Columns\TextColumn::make('test.name')
-                            ->label(__('admin.associated_test'))
-                            ->badge()
-                            ->color('success')
-                            ->default(__('admin.none')),
-                        Tables\Columns\TextColumn::make('applicationProgresses_count')
-                            ->label(__('admin.applications'))
-                            ->counts('applicationProgresses')
-                            ->badge()
-                            ->color('warning'),
-                    ]),
-                    Tables\Columns\TextColumn::make('deadline')
-                        ->label(__('admin.deadline'))
-                        ->date('d/m/Y')
-                        ->icon('heroicon-o-calendar')
-                        ->color('gray')
-                        ->size('sm'),
-                ])->space(2),
+                Tables\Columns\TextColumn::make('title')
+                    ->label(__('admin.title'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('domain')
+                    ->label(__('admin.domain')),
+                Tables\Columns\TextColumn::make('contract_type')
+                    ->label(__('admin.contract_type'))
+                    ->badge(),
+                Tables\Columns\TextColumn::make('test.name')
+                    ->label(__('admin.associated_test'))
+                    ->default(__('admin.none')),
+                Tables\Columns\IconColumn::make('is_published')
+                    ->label(__('admin.published'))
+                    ->boolean(),
+                Tables\Columns\TextColumn::make('deadline')
+                    ->label(__('admin.deadline'))
+                    ->date('d/m/Y'),
+                Tables\Columns\TextColumn::make('applicationProgresses_count')
+                    ->label(__('admin.applications'))
+                    ->counts('applicationProgresses'),
             ])
             ->actions([
                 Tables\Actions\Action::make('notifier_tous')

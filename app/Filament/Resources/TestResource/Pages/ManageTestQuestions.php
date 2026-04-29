@@ -10,30 +10,26 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
-use Illuminate\Support\Str;
 
 class ManageTestQuestions extends EditRecord
 {
     protected static string $resource = TestResource::class;
-    protected static ?string $title = null;
 
-    public function getTitle(): string
-    {
-        return __('test.manage-questions');
-    }
+    protected static ?string $title = 'Gérer les questions';
 
     public function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Section::make(__('test.questions-du-test'))->schema([
+            Forms\Components\Section::make('Questions du test')->schema([
                 Forms\Components\Select::make('filter_group_id')
-                    ->label(__('test.filtrer-groupe'))
+                    ->label('Filtrer par Groupe')
                     ->options(Group::pluck('name', 'id'))
-                    ->placeholder(__('test.tous-groupes'))
+                    ->placeholder('Tous les groupes')
                     ->live()
                     ->dehydrated(false),
+
                 Forms\Components\CheckboxList::make('questions')
-                    ->label(__('test.selectionner-questions'))
+                    ->label('Sélectionner les Questions')
                     ->relationship('questions', 'question_fr')
                     ->options(function (Get $get) {
                         $groupId = $get('filter_group_id');
@@ -43,14 +39,14 @@ class ManageTestQuestions extends EditRecord
                         }
                         return $query->get()->mapWithKeys(function ($question) {
                             $group = $question->group?->name ?? '—';
-                            $label = "[{$group}] " . Str::limit($question->question_fr, 80);
+                            $label = "[{$group}] " . \Illuminate\Support\Str::limit($question->question_fr, 80);
                             return [$question->id => $label];
                         });
                     })
                     ->bulkToggleable()
                     ->columns(1)
                     ->gridDirection('row')
-                    ->helperText(__('test.helper-filtre')),
+                    ->helperText('Utilisez le filtre pour affiner la liste des questions.'),
             ]),
         ]);
     }
@@ -58,7 +54,7 @@ class ManageTestQuestions extends EditRecord
     protected function getSavedNotification(): ?Notification
     {
         return Notification::make()
-            ->title(__('test.questions-mises-a-jour'))
+            ->title('Questions mises à jour avec succès')
             ->success();
     }
 
@@ -71,10 +67,9 @@ class ManageTestQuestions extends EditRecord
     {
         return [
             \Filament\Actions\Action::make('back_to_view')
-                ->label(__('test.retour-details'))
-                ->color('gray')
-                ->icon('heroicon-o-arrow-left')
-                ->url($this->getRedirectUrl()),
+                ->label('← Retour aux détails')
+                ->url(fn () => TestResource::getUrl('view', ['record' => $this->record]))
+                ->color('gray'),
         ];
     }
 }

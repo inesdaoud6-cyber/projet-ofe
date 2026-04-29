@@ -62,63 +62,43 @@ class CandidateResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->contentGrid([
-                'md' => 2,
-                'xl' => 3,
-            ])
             ->columns([
-                Tables\Columns\Layout\Stack::make([
-                    Tables\Columns\Layout\Split::make([
-                        Tables\Columns\TextColumn::make('user.name')
-                            ->label(__('admin.full_name'))
-                            ->searchable()
-                            ->sortable()
-                            ->weight('bold'),
-                        Tables\Columns\TextColumn::make('status')
-                            ->label(__('Status'))
-                            ->badge()
-                            ->formatStateUsing(fn ($state) => match ($state) {
-                                'pending'     => __('Pending'),
-                                'in_progress' => __('In Progress'),
-                                'validated'   => __('Validated'),
-                                'rejected'    => __('Rejected'),
-                                default       => $state,
-                            })
-                            ->color(fn ($state) => match ($state) {
-                                'validated'   => 'success',
-                                'rejected'    => 'danger',
-                                'in_progress' => 'info',
-                                default       => 'warning',
-                            }),
-                    ]),
-                    Tables\Columns\TextColumn::make('user.email')
-                        ->label(__('Email'))
-                        ->searchable()
-                        ->color('gray')
-                        ->size('sm'),
-                    Tables\Columns\Layout\Split::make([
-                        Tables\Columns\TextColumn::make('phone')
-                            ->label(__('admin.phone'))
-                            ->icon('heroicon-o-phone')
-                            ->size('sm'),
-                        Tables\Columns\IconColumn::make('cv_path')
-                            ->label('CV')
-                            ->boolean()
-                            ->trueIcon('heroicon-o-document')
-                            ->falseIcon('heroicon-o-x-mark'),
-                        Tables\Columns\TextColumn::make('primary_score')
-                            ->label(__('Score'))
-                            ->badge()
-                            ->color('success')
-                            ->suffix('/100'),
-                    ]),
-                    Tables\Columns\TextColumn::make('user.created_at')
-                        ->label(__('Date'))
-                        ->dateTime('d/m/Y')
-                        ->sortable()
-                        ->color('gray')
-                        ->size('sm'),
-                ])->space(2),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label(__('admin.full_name'))
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('user.email')
+                    ->label(__('Email'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('phone')
+                    ->label(__('admin.phone')),
+                Tables\Columns\TextColumn::make('status')
+                    ->label(__('Status'))
+                    ->badge()
+                    ->formatStateUsing(fn ($state) => match ($state) {
+                        'pending'     => __('Pending'),
+                        'in_progress' => __('In Progress'),
+                        'validated'   => __('Validated'),
+                        'rejected'    => __('Rejected'),
+                        default       => $state,
+                    })
+                    ->color(fn ($state) => match ($state) {
+                        'validated'   => 'success',
+                        'rejected'    => 'danger',
+                        'in_progress' => 'info',
+                        default       => 'warning',
+                    }),
+                Tables\Columns\IconColumn::make('cv_path')
+                    ->label('CV')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-document')
+                    ->falseIcon('heroicon-o-x-mark'),
+                Tables\Columns\TextColumn::make('primary_score')
+                    ->label(__('Score')),
+                Tables\Columns\TextColumn::make('user.created_at')
+                    ->label(__('Date'))
+                    ->dateTime('d/m/Y')
+                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')

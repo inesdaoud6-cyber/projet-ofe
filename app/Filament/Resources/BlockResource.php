@@ -28,30 +28,11 @@ class BlockResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->contentGrid([
-                'md' => 2,
-                'xl' => 4,
-            ])
             ->columns([
-                Tables\Columns\Layout\Stack::make([
-                    Tables\Columns\Layout\Split::make([
-                        Tables\Columns\TextColumn::make('name')
-                            ->label('Name')
-                            ->searchable()
-                            ->weight('bold'),
-                        Tables\Columns\TextColumn::make('order')
-                            ->label('Order')
-                            ->badge()
-                            ->color('gray')
-                            ->sortable(),
-                    ]),
-                    Tables\Columns\TextColumn::make('created_at')
-                        ->label('Created At')
-                        ->dateTime()
-                        ->sortable()
-                        ->color('gray')
-                        ->size('sm'),
-                ])->space(1),
+                Tables\Columns\TextColumn::make('name')->label('Name')->searchable(),
+                Tables\Columns\TextColumn::make('order')->label('Order')->numeric()->sortable(),
+                Tables\Columns\TextColumn::make('created_at')->label('Created At')->dateTime()->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('order')
             ->actions([

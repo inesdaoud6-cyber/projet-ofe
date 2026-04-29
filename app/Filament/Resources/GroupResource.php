@@ -54,28 +54,17 @@ class GroupResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->contentGrid([
-                'md' => 2,
-                'xl' => 4,
-            ])
             ->columns([
-                Tables\Columns\Layout\Stack::make([
-                    Tables\Columns\Layout\Split::make([
-                        Tables\Columns\TextColumn::make('name')
-                            ->label(__('admin.group_name'))
-                            ->searchable()
-                            ->weight('bold'),
-                        Tables\Columns\TextColumn::make('block.name')
-                            ->label('Block')
-                            ->badge()
-                            ->color('gray'),
-                    ]),
-                    Tables\Columns\TextColumn::make('order')
-                        ->label(__('admin.order'))
-                        ->badge()
-                        ->color('info')
-                        ->sortable(),
-                ])->space(1),
+                Tables\Columns\TextColumn::make('block.name')
+                    ->label('Block')
+                    ->badge()
+                    ->color('gray'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('admin.group_name'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('order')
+                    ->label(__('admin.order'))
+                    ->sortable(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->label(__('Edit')),
